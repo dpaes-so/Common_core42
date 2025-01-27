@@ -1,0 +1,6 @@
+primeira linha vermelha
+segunda linha azul
+terceira linha laranja
+
+quarta linha to sem cores
+quinta linha com espaco
