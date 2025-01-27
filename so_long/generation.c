@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:19:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/27 17:08:52 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:38:46 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ void	map_assets_gen(t_map *map, int *x, int *y)
 	int	len;
 
 	len = ft_strlen(map->map[0]) - 2;
-	if (len > 20 || map->row > 7)
+	if (len > 20 || map->row > 13)
 	{
 		free_map(map);
 		exit(0);
 	}
-	(*x) = (192 * len);
-	(*y) = ((192 * (map->row - 2)));
+	(*x) = (96 * len);
+	(*y) = ((96 * (map->row - 2)));
+	ft_printf("x = %d and y =%d \n",(*x),(*y));
 }
 void	window_generation(t_mlx *mlx, t_map *map)
 {
@@ -51,7 +52,7 @@ void	put_player(t_mlx *mlx, t_map *map,int x,int y)
 		ft_printf("YOU WIN!!!!");
 	close_game(mlx);
 	}
-	mlx_put_image_to_window(mlx->mlx, mlx->win,mlx->game.play.img,(mlx->map.player.x - 1 )* 192,(mlx->map.player.y - 1)* 192);
+	mlx_put_image_to_window(mlx->mlx, mlx->win,mlx->game.play.img,(mlx->map.player.x - 1 )* 96,(mlx->map.player.y - 1)* 96);
 }
 void	map_gen(t_mlx *mlx, t_map *map)
 {
@@ -66,7 +67,7 @@ void	map_gen(t_mlx *mlx, t_map *map)
 			&mlx->game.coin.w, &mlx->game.coin.t);
 	mlx->game.door.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/DOOR.xpm",
 			&mlx->game.door.w, &mlx->game.door.t);
-	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/Dora.xpm",
+	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/Coin.xpm",
 			&mlx->game.play.w, &mlx->game.play.t);
 	map_assets_gen(map, &mlx->resx, &mlx->resy);
 	window_generation(mlx, map);
@@ -85,9 +86,9 @@ void	prep_sprite(t_mlx *mlx)
 	mlx->game.floor.addr = mlx_get_data_addr(mlx->game.floor.img,
 			&mlx->game.floor.bits_per_pixel, &mlx->game.floor.line_length,
 			&mlx->game.floor.endian);
-	mlx->game.door.addr = mlx_get_data_addr(mlx->game.door.img,
-			&mlx->game.door.bits_per_pixel, &mlx->game.door.line_length,
-			&mlx->game.door.endian);
+	// mlx->game.door.addr = mlx_get_data_addr(mlx->game.door.img,
+	// 		&mlx->game.door.bits_per_pixel, &mlx->game.door.line_length,
+	// 		&mlx->game.door.endian);
 	mlx->game.rock.addr = mlx_get_data_addr(mlx->game.rock.img,
 			&mlx->game.rock.bits_per_pixel, &mlx->game.rock.line_length,
 			&mlx->game.rock.endian);
@@ -99,32 +100,3 @@ void	prep_sprite(t_mlx *mlx)
 			&mlx->game.play.endian);
 	put_sprite(mlx);
 }
-
-// void	put_player(t_mlx *mlx, t_map *map)
-// {
-// 	char	*str;
-// 	int		i;
-// 	t_img	dora;
-// 	int		x;
-// 	int		y;
-// 	int		j;
-
-// 	y = 0;
-// 	j = 0;
-// 	dora.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/Dora.xpm",
-// 			&dora.w, &dora.t);
-// 	while (j < map->row - 2)
-// 	{
-// 		str = (map->map[++j]);
-// 		x = 0;
-// 		i = 1;
-// 		while (str[i] && str[i] != '\n')
-// 		{
-// 			if (str[i] == 'p')
-// 				mlx_put_image_to_window(mlx->mlx, mlx->win, dora.img, x, y);
-// 			i++;
-// 			x += 192;
-// 		}
-// 		y += 192;
-// 	}
-// }
