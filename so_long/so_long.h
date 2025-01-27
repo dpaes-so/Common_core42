@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:34:54 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/16 17:23:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:55:19 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,17 @@ void			check_2_many(t_map *map);
 int				mouseprintf(int x, int y);
 int				keys(int keycode, t_mlx *mlx);
 
-
-//events
-int char_cmp(char c,char r);
+// events
+int				char_cmp(char c, char r);
 // aux
 int				pixel_get(t_img *data, int x, int y);
 void			free_map(t_map *map);
 void			my_mlx_pixel_put(t_img *data, int x, int y, int color);
 void			map_wall(t_map *map, int len, int row);
-int closeX(t_mlx *mlx);
+int				closeX(t_mlx *mlx);
+// more aux
+void			close_game(t_mlx *mlx);
+void			player_move(t_mlx *mlx);
 // sprit gen
 void			put_door(t_mlx *mlx, int cx, int cy);
 void			put_coin(t_mlx *mlx, int cx, int cy);
@@ -96,6 +98,6 @@ void			put_sprite(t_mlx *mlx);
 void			window_generation(t_mlx *mlx, t_map *map);
 void			map_assets_gen(t_map *map, int *x, int *y);
 void			map_gen(t_mlx *mlx, t_map *map);
-void			put_player(t_mlx *mlx, t_map *map,int x,int y);
-void			prep_sprite(t_mlx *mlx);//not really but no space
+void			put_player(t_mlx *mlx, t_map *map, int x, int y);
+void	prep_sprite(t_mlx *mlx); // not really but no space
 #endif

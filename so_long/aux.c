@@ -6,24 +6,23 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:29:32 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/16 17:21:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:03:10 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-
-void free_map(t_map *map)
-{	
-	int i;
+void	free_map(t_map *map)
+{
+	int	i;
 
 	i = 0;
-	while (map->map[i])
+	while (i < map->row)
 		free(map->map[i++]);
 	free(map->map);
 }
 
-void wallerror(t_map *map)
+void	wallerror(t_map *map)
 {
 	ft_printf("the map its not closed\n");
 	free_map(map);
@@ -46,9 +45,14 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-
-int closeX(t_mlx *mlx)
+int	closeX(t_mlx *mlx)
 {
+	mlx_destroy_image(mlx->mlx, mlx->game.coin.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.door.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.rock.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.floor.img);
+	mlx_destroy_image(mlx->mlx, mlx->bg.img);
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	mlx_destroy_display(mlx->mlx);
 	free_map(&mlx->map);

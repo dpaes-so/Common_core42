@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:19:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/16 18:11:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:08:52 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,7 @@ void	put_player(t_mlx *mlx, t_map *map,int x,int y)
 	if(char_cmp(mlx->map.map[(mlx->map.player.y)][mlx->map.player.x],'E') == 1 && coin_collected == mlx->map.coinn)
 	{
 		ft_printf("YOU WIN!!!!");
-		mlx_destroy_window(mlx->mlx, mlx->win);
-		mlx_destroy_display(mlx->mlx);
-		free_map(&mlx->map);
-		free(mlx->mlx);
-		exit(0);
+	close_game(mlx);
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win,mlx->game.play.img,(mlx->map.player.x - 1 )* 192,(mlx->map.player.y - 1)* 192);
 }
