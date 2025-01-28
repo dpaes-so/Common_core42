@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 17:15:42 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/27 17:29:52 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:53:55 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,20 @@ void	put_sprite(t_mlx *mlx)
 	int	x;
 	int	y;
 
-	x = 1;
 	y = 1;
 	while (y < mlx->map.row - 1)
 	{
 		x = 1;
 		while (x < mlx->map.col - 1)
 		{
-
-			if (mlx->map.map[y][x] == 'o' || mlx->map.map[y][x] == '0' || mlx->map.map[y][x] == 'p' || mlx->map.map[y][x] == 'g' )
+			if (mlx->map.map[y][x] == 'o' || mlx->map.map[y][x] == '0' || mlx->map.map[y][x] == 'p')
 				put_floor(mlx, x, y);
 			else if (mlx->map.map[y][x] == '1')
 				put_rock(mlx, x, y);
 			else if (mlx->map.map[y][x] == 'c')
 				put_coin(mlx, x, y);
-			// // else if (mlx->map.map[y][x] == 'E')
-			// // 	put_door(mlx, x, y);
+			else if (mlx->map.map[y][x] == 'E')
+				put_door(mlx, x, y);
 			x++;
 		}
 		y++;

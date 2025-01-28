@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:34:54 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/27 16:55:19 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:01:30 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,22 @@ typedef struct s_mlx
 	void		*win;
 	int			resx;
 	int			resy;
+	t_point		pixel;
 	t_img		bg;
 	t_map		map;
 	t_assets	game;
 }				t_mlx;
+
+typedef struct s_animation {
+	t_list *	frames;
+	int		width;
+	int		height;
+	int		delay;
+	int		_tmp_delay;
+	int		current_frame_num;
+	long int	last_updated;
+	long int	frame_count;
+}		t_animation;
 
 void			map_check(t_map *map);
 void			map_type(t_map *map);
