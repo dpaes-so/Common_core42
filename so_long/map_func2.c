@@ -6,24 +6,24 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:27:57 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 16:33:57 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:58:29 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-char **make_maptrix(int row,char *map_file)
+char	**make_maptrix(int row, char *map_file)
 {
 	char	**maptrix;
-	int i;
-	int fd;
+	int		i;
+	int		fd;
 
 	i = 0;
 	fd = open(map_file, O_RDONLY);
 	maptrix = malloc(sizeof(char *) * row + 1);
 	if (!maptrix)
 		return (NULL);
-	while(i < row)
+	while (i < row)
 	{
 		maptrix[i] = get_next_line(fd);
 		i++;
@@ -40,7 +40,7 @@ void	map_type(t_map *map)
 	len = ft_strlen(map->map[0]);
 	while (i < map->row)
 	{
-		if (((ft_strlen(map->map[i]) != len)|| (map->row < 3)))
+		if (((ft_strlen(map->map[i]) != len) || (map->row < 3)))
 		{
 			ft_printf("Map is not a rectangle or too short");
 			free_map(map);
@@ -50,52 +50,51 @@ void	map_type(t_map *map)
 	}
 }
 
-void	map_wall(t_map *map,int len,int row)
+void	map_wall(t_map *map, int len, int row)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(map->map[0][i])
+	while (map->map[0][i])
 	{
-		if(map->map[0][i] !='1' && map->map[0][i] != '\n')
+		if (map->map[0][i] != '1' && map->map[0][i] != '\n')
 			wallerror(map);
 		i++;
 	}
 	i = 1;
-	while(i < row)
+	while (i < row)
 	{
-		if(map->map[i][0] !='1')
+		if (map->map[i][0] != '1')
 			wallerror(map);
-		if(map->map[i][len - 1] !='1')
+		if (map->map[i][len - 1] != '1')
 			wallerror(map);
 		i++;
 	}
 	i = 0;
-	while(map->map[row][i])
+	while (map->map[row][i])
 	{
-		if(map->map[row][i] !='1' && map->map[row][i] != '\n')
+		if (map->map[row][i] != '1' && map->map[row][i] != '\n')
 			wallerror(map);
 		i++;
 	}
 }
 
-void	flood_fill(t_map *map,int x, int y)
+void	flood_fill(t_map *map, int x, int y)
 {
-	if(map->map[y][x] != 'P' && map->map[y][x] != 'C' && map->map[y][x] != '0' && map->map[y][x] != 'E')
-		return;
+	if (map->map[y][x] != 'P' && map->map[y][x] != 'C' && map->map[y][x] != '0'
+		&& map->map[y][x] != 'E')
+		return ;
 	if (map->map[y][x] == 'P')
 		map->map[y][x] = 'p';
 	else if (map->map[y][x] == 'C')
 		map->map[y][x] = 'c';
 	else if (map->map[y][x] == '0')
 		map->map[y][x] = 'o';
-	
-	flood_fill(map,x -1,y);
-	flood_fill(map,x +1,y);
-	flood_fill(map,x,y - 1);
-	flood_fill(map,x,y + 1);
+	flood_fill(map, x - 1, y);
+	flood_fill(map, x + 1, y);
+	flood_fill(map, x, y - 1);
+	flood_fill(map, x, y + 1);
 }
-
 
 void	check_2_many(t_map *map)
 {

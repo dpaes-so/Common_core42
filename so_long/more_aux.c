@@ -6,13 +6,13 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:51:44 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 16:07:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:58:38 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void close_game(t_mlx *mlx)
+void	close_game(t_mlx *mlx)
 {
 	ft_printf("GAME CLOSING\n");
 	mlx_destroy_image(mlx->mlx, mlx->game.coin.img);

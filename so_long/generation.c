@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:19:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 16:29:24 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:58:11 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	put_player(t_mlx *mlx, t_map *map, int x, int y)
 	if (char_cmp(map->map[(map->player.y)][map->player.x], 'E') == 1
 		&& map->coin_collected == map->coinn)
 	{
-		ft_printf("WOW %d GOLD COINS!? WE CAN MARRY NOW\n",map->coin_collected);
+		ft_printf("WOW %d GOLD COINS!? WE CAN MARRY NOW\n",
+			map->coin_collected);
 		close_game(mlx);
 	}
 	else if (char_cmp(map->map[(map->player.y)][map->player.x], 'E') == 1
