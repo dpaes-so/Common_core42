@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:19:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/28 16:04:45 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:29:24 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	map_assets_gen(t_map *map, int *x, int *y)
 	int	len;
 
 	len = ft_strlen(map->map[0]) - 2;
-	if (len > 20 || map->row > 13)
+	if (len > 20 || map->row > 12)
 	{
+		ft_printf("map to big\n");
 		free_map(map);
 		exit(0);
 	}
 	(*x) = (96 * len);
 	(*y) = ((96 * (map->row - 2)));
-	ft_printf("x = %d and y =%d \n", (*x), (*y));
 }
-void	window_generation(t_mlx *mlx, t_map *map)
+void	window_generation(t_mlx *mlx)
 {
 	mlx->win = mlx_new_window(mlx->mlx, mlx->resx, mlx->resy, "so_long");
 	mlx->bg.img = mlx_new_image(mlx->mlx, mlx->resx, mlx->resy);
@@ -35,48 +35,48 @@ void	window_generation(t_mlx *mlx, t_map *map)
 }
 void	put_player(t_mlx *mlx, t_map *map, int x, int y)
 {
-	static int	coin_collected;
-
-	if (!coin_collected)
-		coin_collected = 0;
 	mlx->map.player.x += x;
 	mlx->map.player.y += y;
-	if (char_cmp(mlx->map.map[(mlx->map.player.y)][mlx->map.player.x],'c') == 1)
+	if (char_cmp(map->map[(map->player.y)][map->player.x], 'c') == 1)
 	{
-		mlx->map.map[(mlx->map.player.y)][mlx->map.player.x] = '0';
-		coin_collected++;
+		map->map[(map->player.y)][map->player.x] = '0';
+		map->coin_collected++;
 		put_sprite(mlx);
 	}
-	if (char_cmp(mlx->map.map[(mlx->map.player.y)][mlx->map.player.x], 'E') == 1
-		&& coin_collected == mlx->map.coinn)
+	if (char_cmp(map->map[(map->player.y)][map->player.x], 'E') == 1
+		&& map->coin_collected == map->coinn)
 	{
-		ft_printf("YOU WIN!!!!");
+		ft_printf("WOW %d GOLD COINS!? WE CAN MARRY NOW\n",map->coin_collected);
 		close_game(mlx);
 	}
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.play.img,(mlx->map.player.x - 1) * 96, (mlx->map.player.y - 1) * 96);
+	else if (char_cmp(map->map[(map->player.y)][map->player.x], 'E') == 1
+		&& !(map->coin_collected == map->coinn))
+	{
+		ft_printf("ONLY RICH MAN CAN MARRY ME\n");
+	}
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.play.img,
+		(mlx->map.player.x - 1) * 96, (mlx->map.player.y - 1) * 96);
 }
 void	map_gen(t_mlx *mlx, t_map *map)
 {
-	int	x;
-	int	y;
-
 	mlx->game.floor.img = mlx_xpm_file_to_image(mlx->mlx,
 			"./assets/4K/Grass.xpm", &mlx->game.floor.w, &mlx->game.floor.t);
-	mlx->game.rock.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/Rock.xpm",
-			&mlx->game.rock.w, &mlx->game.rock.t);
-	mlx->game.coin.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/Coin.xpm",
-			&mlx->game.coin.w, &mlx->game.coin.t);
-	mlx->game.door.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/prince.xpm",
-			&mlx->game.door.w, &mlx->game.door.t);
-	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/4K/cav.xpm",
-			&mlx->game.play.w, &mlx->game.play.t);
+	mlx->game.rock.img = mlx_xpm_file_to_image(mlx->mlx,
+			"./assets/4K/good_rock.xpm", &mlx->game.rock.w, &mlx->game.rock.t);
+	mlx->game.coin.img = mlx_xpm_file_to_image(mlx->mlx,
+			"./assets/4K/good_coin.xpm", &mlx->game.coin.w, &mlx->game.coin.t);
+	mlx->game.door.img = mlx_xpm_file_to_image(mlx->mlx,
+			"./assets/4K/prince.xpm", &mlx->game.door.w, &mlx->game.door.t);
+	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx,
+			"./assets/4K/good_cav.xpm", &mlx->game.play.w, &mlx->game.play.t);
 	map_assets_gen(map, &mlx->resx, &mlx->resy);
-	window_generation(mlx, map);
+	window_generation(mlx);
 	prep_sprite(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
 	// put_player(mlx,map,0,0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.play.img,
 		(mlx->map.player.x - 1) * 96, (mlx->map.player.y - 1) * 96);
+	// new_image(mlx);
 }
 
 void	prep_sprite(t_mlx *mlx)
@@ -98,6 +98,7 @@ void	prep_sprite(t_mlx *mlx)
 	mlx->game.coin.addr = mlx_get_data_addr(mlx->game.coin.img,
 			&mlx->game.coin.bits_per_pixel, &mlx->game.coin.line_length,
 			&mlx->game.coin.endian);
+	mlx->map.coin_collected = 0; // dont know where to put this
 	mlx->game.play.addr = mlx_get_data_addr(mlx->game.play.img,
 			&mlx->game.play.bits_per_pixel, &mlx->game.play.line_length,
 			&mlx->game.play.endian);

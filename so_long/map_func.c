@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:00:07 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/27 17:35:07 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:22:53 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	map_count(t_map *map)
 	}
 	check_2_many(map);
 }
-int check_if_coin (t_map *map)
+int	check_if_coin(t_map *map)
 {
 	int	i;
 	int	j;
-	int coin_collected;
-	
+	int	coin_collected;
+
 	coin_collected = 0;
 	i = -1;
 	while (++i < map->row)
@@ -59,12 +59,13 @@ int check_if_coin (t_map *map)
 	else
 		return (0);
 }
-int check_if_possible(t_map *map)
+int	check_if_possible(t_map *map)
 {
 	int	i;
 	int	j;
-	int x;
-	int y;
+	int	x;
+	int	y;
+
 	i = -1;
 	while (++i < map->row)
 	{
@@ -78,21 +79,22 @@ int check_if_possible(t_map *map)
 			}
 		}
 	}
-	if(map->map[y + 1][x] == 'o' || map->map[y - 1][x] == 'o')
-		return(check_if_coin(map));
-	else if(map->map[y][x + 1] == 'o' || map->map[y][x - 1] == 'o')
-		return(check_if_coin(map));
-	else
-		return(0);
+	if (map->map[y + 1][x] == 'o' || map->map[y - 1][x] == 'o' || map->map[y
+		+ 1][x] == 'c' || map->map[y - 1][x] == 'c')
+		return (check_if_coin(map));
+	else if (map->map[y][x + 1] == 'o' || map->map[y][x - 1] == 'o'
+		|| map->map[y][x + 1] == 'c' || map->map[y][x - 1] == 'c')
+		return (check_if_coin(map));
+	return (0);
 }
-int check_path(t_map *map)
+int	check_path(t_map *map)
 {
 	int	i;
 	int	j;
-	int x;
-	int y;
-	int f;
-	
+	int	x;
+	int	y;
+	int	f;
+
 	f = 1;
 	i = -1;
 	while (++i < map->row)
@@ -109,16 +111,16 @@ int check_path(t_map *map)
 	}
 	x = map->player.x;
 	y = map->player.y;
-	flood_fill(map,x,y);
+	flood_fill(map, x, y);
 	f = check_if_possible(map);
-	return(f);
+	return (f);
 }
 void	map_check(t_map *map)
 {
 	int	len;
 	int	row;
-	int f;
-	
+	int	f;
+
 	map->player_n = 0;
 	map->coinn = 0;
 	map->exitn = 0;
@@ -131,7 +133,7 @@ void	map_check(t_map *map)
 	map_count(map);
 	map_wall(map, len, row);
 	f = check_path(map);
-	if(!f)
+	if (!f)
 	{
 		ft_printf("the map is not possible");
 		free_map(map);

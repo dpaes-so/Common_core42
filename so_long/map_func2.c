@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:27:57 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/28 14:02:40 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:33:57 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	map_wall(t_map *map,int len,int row)
 
 void	flood_fill(t_map *map,int x, int y)
 {
-	if(map->map[y][x] != 'P' && map->map[y][x] != 'C' && map->map[y][x] != '0')
+	if(map->map[y][x] != 'P' && map->map[y][x] != 'C' && map->map[y][x] != '0' && map->map[y][x] != 'E')
 		return;
 	if (map->map[y][x] == 'P')
 		map->map[y][x] = 'p';

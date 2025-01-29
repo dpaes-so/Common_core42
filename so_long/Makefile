@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/07 11:34:53 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/01/27 16:53:12 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/01/29 16:04:25 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = so_long
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-SRC_FILES =	main.c aux.c map_func.c map_func2.c events.c generation.c sprite_gen.c more_aux.c
+SRC_FILES =	main.c aux.c map_func.c map_func2.c events.c generation.c sprite_gen.c more_aux.c animation.c
 OBJS = $(SRC_FILES:.c=.o)
 LIBFT = includes/libft/libft.a
 
@@ -26,7 +26,7 @@ $(NAME):$(OBJS) $(LIBFT)
 	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -g -o $(NAME)
 
 %.o: %.c
-	@$(CC) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 	
 $(LIBFT):
 	@$(MAKE) -C includes/libft

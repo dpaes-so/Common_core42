@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:34:54 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/28 15:01:30 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:05:32 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_map
 	int			wall;
 	int			path;
 	int			extra;
+	int			coin_collected;
 	t_point		player;
 }				t_map;
 
@@ -62,22 +63,24 @@ typedef struct s_mlx
 	void		*win;
 	int			resx;
 	int			resy;
+	int			exit_allowed;
 	t_point		pixel;
 	t_img		bg;
 	t_map		map;
 	t_assets	game;
 }				t_mlx;
 
-typedef struct s_animation {
-	t_list *	frames;
-	int		width;
-	int		height;
-	int		delay;
-	int		_tmp_delay;
-	int		current_frame_num;
+typedef struct s_animation
+{
+	t_list		*frames;
+	int			width;
+	int			height;
+	int			delay;
+	int			_tmp_delay;
+	int			current_frame_num;
 	long int	last_updated;
 	long int	frame_count;
-}		t_animation;
+}				t_animation;
 
 void			map_check(t_map *map);
 void			map_type(t_map *map);
@@ -100,6 +103,7 @@ int				closeX(t_mlx *mlx);
 // more aux
 void			close_game(t_mlx *mlx);
 void			player_move(t_mlx *mlx);
+void			move_aux(int f, int x, int y, t_mlx *mlx);
 // sprit gen
 void			put_door(t_mlx *mlx, int cx, int cy);
 void			put_coin(t_mlx *mlx, int cx, int cy);
@@ -107,7 +111,7 @@ void			put_rock(t_mlx *mlx, int cx, int cy);
 void			put_floor(t_mlx *mlx, int cx, int cy);
 void			put_sprite(t_mlx *mlx);
 // generations
-void			window_generation(t_mlx *mlx, t_map *map);
+void			window_generation(t_mlx *mlx);
 void			map_assets_gen(t_map *map, int *x, int *y);
 void			map_gen(t_mlx *mlx, t_map *map);
 void			put_player(t_mlx *mlx, t_map *map, int x, int y);
