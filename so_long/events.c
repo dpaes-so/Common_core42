@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:42:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 16:11:24 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:06:54 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,28 @@ int	keys(int keycode, t_mlx *mlx)
 	x = mlx->map.player.x;
 	y = mlx->map.player.y;
 	f = 0;
-	mlx_clear_window(mlx->mlx, mlx->win);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
 	if (keycode == 65307)
 		close_game(mlx);
 	if (keycode == 119)
 	{
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
 		if (char_cmp(mlx->map.map[y - 1][x], '1') == 0)
 			f = -1;
 		put_player(mlx, &mlx->map, 0, f);
 	}
 	else if (keycode == 115)
 	{
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
 		if (char_cmp(mlx->map.map[y + 1][x], '1') == 0)
 			f = +1;
 		put_player(mlx, &mlx->map, 0, f);
 	}
 	else if (keycode == 97)
 	{
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
 		if (char_cmp(mlx->map.map[y][x - 1], '1') == 0)
 			f = -1;
 		mlx_destroy_image(mlx->mlx, mlx->game.play.img);
@@ -63,6 +67,8 @@ int	keys(int keycode, t_mlx *mlx)
 	}
 	else if (keycode == 100)
 	{
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
 		if (char_cmp(mlx->map.map[y][x + 1], '1') == 0)
 			f = +1;
 		mlx_destroy_image(mlx->mlx, mlx->game.play.img);
