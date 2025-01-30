@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:00:07 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 16:22:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:19:44 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	map_count(t_map *map)
 	}
 	check_2_many(map);
 }
+
 int	check_if_coin(t_map *map)
 {
 	int	i;
@@ -59,6 +60,7 @@ int	check_if_coin(t_map *map)
 	else
 		return (0);
 }
+
 int	check_if_possible(t_map *map)
 {
 	int	i;
@@ -87,6 +89,7 @@ int	check_if_possible(t_map *map)
 		return (check_if_coin(map));
 	return (0);
 }
+
 int	check_path(t_map *map)
 {
 	int	i;
@@ -115,6 +118,7 @@ int	check_path(t_map *map)
 	f = check_if_possible(map);
 	return (f);
 }
+
 void	map_check(t_map *map)
 {
 	int	len;

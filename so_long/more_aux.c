@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:51:44 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 17:58:38 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:15:39 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ void	close_game(t_mlx *mlx)
 	free_map(&mlx->map);
 	free(mlx->mlx);
 	exit(0);
+}
+
+int	char_cmp(char c, char r)
+{
+	if (c - r == 0)
+		return (1);
+	else
+		return (0);
 }

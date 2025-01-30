@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:27:57 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 17:58:29 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:21:58 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	**make_maptrix(int row, char *map_file)
 	i = 0;
 	return (maptrix);
 }
+
 void	map_type(t_map *map)
 {
 	int	i;

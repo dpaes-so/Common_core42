@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:29:32 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/27 17:03:10 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:13:06 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	closeX(t_mlx *mlx)
+int	closex(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->game.coin.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.door.img);

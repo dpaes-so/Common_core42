@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:19:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/29 17:58:11 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:31:07 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	map_assets_gen(t_map *map, int *x, int *y)
 	(*x) = (96 * len);
 	(*y) = ((96 * (map->row - 2)));
 }
+
 void	window_generation(t_mlx *mlx)
 {
 	mlx->win = mlx_new_window(mlx->mlx, mlx->resx, mlx->resy, "so_long");
@@ -33,6 +34,7 @@ void	window_generation(t_mlx *mlx)
 	mlx->bg.addr = mlx_get_data_addr(mlx->bg.img, &mlx->bg.bits_per_pixel,
 			&mlx->bg.line_length, &mlx->bg.endian);
 }
+
 void	put_player(t_mlx *mlx, t_map *map, int x, int y)
 {
 	mlx->map.player.x += x;
@@ -53,11 +55,12 @@ void	put_player(t_mlx *mlx, t_map *map, int x, int y)
 	else if (char_cmp(map->map[(map->player.y)][map->player.x], 'E') == 1
 		&& !(map->coin_collected == map->coinn))
 	{
-		ft_printf("ONLY RICH MAN CAN MARRY ME\n");
+		ft_printf("ONLY RICH MEN CAN MARRY ME\n");
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.play.img,
 		(mlx->map.player.x - 1) * 96, (mlx->map.player.y - 1) * 96);
 }
+
 void	map_gen(t_mlx *mlx, t_map *map)
 {
 	mlx->game.floor.img = mlx_xpm_file_to_image(mlx->mlx,
@@ -72,12 +75,12 @@ void	map_gen(t_mlx *mlx, t_map *map)
 			"./assets/4K/good_cav.xpm", &mlx->game.play.w, &mlx->game.play.t);
 	map_assets_gen(map, &mlx->resx, &mlx->resy);
 	window_generation(mlx);
+	mlx->game.moves = 0;
+	mlx->map.coin_collected = 0;
 	prep_sprite(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->bg.img, 0, 0);
-	// put_player(mlx,map,0,0);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.play.img,
 		(mlx->map.player.x - 1) * 96, (mlx->map.player.y - 1) * 96);
-	// new_image(mlx);
 }
 
 void	prep_sprite(t_mlx *mlx)
@@ -99,7 +102,6 @@ void	prep_sprite(t_mlx *mlx)
 	mlx->game.coin.addr = mlx_get_data_addr(mlx->game.coin.img,
 			&mlx->game.coin.bits_per_pixel, &mlx->game.coin.line_length,
 			&mlx->game.coin.endian);
-	mlx->map.coin_collected = 0; // dont know where to put this
 	mlx->game.play.addr = mlx_get_data_addr(mlx->game.play.img,
 			&mlx->game.play.bits_per_pixel, &mlx->game.play.line_length,
 			&mlx->game.play.endian);
