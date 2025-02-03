@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <sys/time.h>
 
 int	map_parse(char *map_file, t_map *map)
 {
@@ -38,24 +39,47 @@ int	map_parse(char *map_file, t_map *map)
 	map_check(map);
 	return (1);
 }
-int test(t_mlx *mlx)
-{	
-	if(mlx->game.delay == 300)
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.rock.img,(mlx->map.player.x)*96 -96, (mlx->map.player.y)*96-96);
-	if(mlx->game.delay == 600)
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.coin.img,(mlx->map.player.x)*96 -96, (mlx->map.player.y)*96-96);
-	if(mlx->game.delay == 900)
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.door.img,(mlx->map.player.x)*96 -96, (mlx->map.player.y)*96-96);
-	if(mlx->game.delay == 1100)
-	{
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.floor.img,(mlx->map.player.x)*96 -96, (mlx->map.player.y)*96-96);
-		mlx->game.delay = 0;
-	}	
-	mlx->game.delay++;
-	// ft_printf("x = %d \n",mlx->map.player.x);
-	// ft_printf("y = %d \n",mlx->map.player.y);
-	return (0);
+
+void play_right_animation(t_mlx *mlx)
+{
+    if (mlx->game.delay == 200)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step1.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 400)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step2.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 600)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step3.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 800)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step4.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 1000)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step5.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 1200)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step6.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 1400)
+    {
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.step7.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+        mlx->game.delay = 0;
+    }
 }
+int test(t_mlx *mlx)
+{
+    static struct timeval last_time;  // Last time the function was called
+    struct timeval current_time;      // Current time
+    long elapsed_time;                // Time difference
+
+    gettimeofday(&current_time, NULL);
+    elapsed_time = (current_time.tv_sec - last_time.tv_sec) * 1000 +
+                   (current_time.tv_usec - last_time.tv_usec) / 1000;
+
+	if (elapsed_time >= 1)
+    {
+        play_right_animation(mlx);
+        mlx->game.delay++;
+        last_time = current_time;
+    }
+    return 0;
+}
+
+
 int	main(int ac, char **av)
 {
 	t_mlx	mlx;

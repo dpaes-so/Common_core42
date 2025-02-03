@@ -15,6 +15,13 @@
 void	close_game(t_mlx *mlx)
 {
 	ft_printf("GAME CLOSING\n");
+	mlx_destroy_image(mlx->mlx, mlx->game.step1.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.step2.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.step3.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.step4.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.step5.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.step6.img);
+	mlx_destroy_image(mlx->mlx, mlx->game.step7.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.coin.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.door.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
