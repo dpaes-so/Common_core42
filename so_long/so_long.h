@@ -35,11 +35,26 @@ typedef struct s_img
 
 typedef struct s_game
 {
+	t_img		step1;
+	t_img		step2;
+	t_img		step3;
+	t_img		step4;
+	t_img		step5;
+	t_img		step6;
+	t_img		step7;
+	t_img		mirror1;
+	t_img		mirror2;
+	t_img		mirror3;
+	t_img		mirror4;
+	t_img		mirror5;
+	t_img		mirror6;
+	t_img		mirror7;
 	t_img		coin;
 	t_img		door;
 	t_img		play;
 	t_img		rock;
 	t_img		floor;
+	int 		flag;
 	int			moves;
 	int			delay;
 }				t_game;
@@ -71,37 +86,6 @@ typedef struct s_mlx
 	t_map		map;
 	t_game		game;
 }				t_mlx;
-// animations tryout
-typedef struct s_animation
-{
-	t_list		*frames;
-	int			width;
-	int			height;
-	int			delay;
-	int			_tmp_delay;
-	int			current_frame_num;
-	long int	last_updated;
-	long int	frame_count;
-}				t_animation;
-
-typedef struct s_sprite
-{
-	t_list		*animations;
-	char		*name;
-	char		*file_path;
-	t_img		sprite_img;
-	int			width;
-	int			height;
-	int			z_index;
-}				t_sprite;
-
-typedef struct s_slice
-{
-	int			x;
-	int			y;
-	int			width;
-	int			height;
-}				t_slice;
 
 // events
 int				keys(int keycode, t_mlx *mlx);
@@ -144,5 +128,6 @@ void			put_player(t_mlx *mlx, t_map *map, int x, int y);
 void	prep_sprite(t_mlx *mlx); // not really but no space
 
 // animations tryout
-t_img			new_image(char *path, t_mlx *mlx);
+void animationgen(t_mlx *mlx);
+void animationdestroy(t_mlx *mlx);
 #endif

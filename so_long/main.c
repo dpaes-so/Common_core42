@@ -60,6 +60,26 @@ void play_right_animation(t_mlx *mlx)
         mlx->game.delay = 0;
     }
 }
+void play_left_animation(t_mlx *mlx)
+{
+    if (mlx->game.delay == 200)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror1.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 400)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror2.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 600)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror3.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 800)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror4.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 1000)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror5.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 1200)
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror6.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+    if (mlx->game.delay == 1400)
+    {
+        mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->game.mirror7.img, (mlx->map.player.x) * 96 - 96, (mlx->map.player.y) * 96 - 96);
+        mlx->game.delay = 0;
+    }
+}
 int test(t_mlx *mlx)
 {
     static struct timeval last_time;  // Last time the function was called
@@ -72,7 +92,10 @@ int test(t_mlx *mlx)
 
 	if (elapsed_time >= 1)
     {
-        play_right_animation(mlx);
+		if(mlx->game.flag == 1)
+        	play_right_animation(mlx);
+		else
+			play_left_animation(mlx);
         mlx->game.delay++;
         last_time = current_time;
     }

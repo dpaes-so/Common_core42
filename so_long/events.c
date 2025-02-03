@@ -48,7 +48,7 @@ void	move_right(int f, t_mlx *mlx, int x, int y)
 	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
 	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx,
 			"./assets/step-1.xpm", &mlx->game.play.w, &mlx->game.play.t);
-
+	mlx->game.flag = 1;
 	put_player(mlx, &mlx->map, f, 0);
 }
 
@@ -61,10 +61,9 @@ void	move_left(int f, t_mlx *mlx, int x, int y)
 		f = -1;
 		ft_printf("total of moves: %d\n", mlx->game.moves++);
 	}
-	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
 	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx,
-			"./assets/mirror.xpm", &mlx->game.play.w,
-			&mlx->game.play.t);
+			"./assets/mirror-1.xpm", &mlx->game.play.w, &mlx->game.play.t);
+	mlx->game.flag =0;
 	put_player(mlx, &mlx->map, f, 0);
 }
 
