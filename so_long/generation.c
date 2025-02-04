@@ -71,12 +71,12 @@ void	map_gen(t_mlx *mlx, t_map *map)
 	mlx->game.coin.img = mlx_xpm_file_to_image(mlx->mlx,
 			"./assets/4K/good_coin.xpm", &mlx->game.coin.w, &mlx->game.coin.t);
 	mlx->game.door.img = mlx_xpm_file_to_image(mlx->mlx,
-			"./assets/4K/prince.xpm", &mlx->game.door.w, &mlx->game.door.t);
+			"./assets/princessa-1.xpm", &mlx->game.door.w, &mlx->game.door.t);
 	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx,
 			"./assets/step-1.xpm", &mlx->game.play.w, &mlx->game.play.t);
 	map_assets_gen(map, &mlx->resx, &mlx->resy);
 	window_generation(mlx);
-	mlx->game.moves = 0;
+	mlx->game.moves = 1;
 	mlx->map.coin_collected = 0;
 	mlx->game.flag = 1;
 	prep_sprite(mlx);

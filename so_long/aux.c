@@ -47,8 +47,9 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 
 int	closex(t_mlx *mlx)
 {
+	ft_printf("GAME CLOSING\n");
+	animationdestroy(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->game.coin.img);
-	mlx_destroy_image(mlx->mlx, mlx->game.step1.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.door.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
 	mlx_destroy_image(mlx->mlx, mlx->game.rock.img);
