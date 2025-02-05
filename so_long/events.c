@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:42:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/30 16:19:29 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:09:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	move_right(int f, t_mlx *mlx, int x, int y)
 		ft_printf("total of moves: %d\n", mlx->game.moves++);
 	}
 	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
-	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx,
-			"./assets/step-1.xpm", &mlx->game.play.w, &mlx->game.play.t);
+	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx, "./assets/step-1.xpm",
+			&mlx->game.play.w, &mlx->game.play.t);
 	mlx->game.flag = 1;
 	put_player(mlx, &mlx->map, f, 0);
 }
@@ -64,7 +64,7 @@ void	move_left(int f, t_mlx *mlx, int x, int y)
 	mlx_destroy_image(mlx->mlx, mlx->game.play.img);
 	mlx->game.play.img = mlx_xpm_file_to_image(mlx->mlx,
 			"./assets/mirror-1.xpm", &mlx->game.play.w, &mlx->game.play.t);
-	mlx->game.flag =0;
+	mlx->game.flag = 0;
 	put_player(mlx, &mlx->map, f, 0);
 }
 
