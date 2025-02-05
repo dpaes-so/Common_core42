@@ -33,7 +33,8 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
-typedef struct s_game
+
+typedef struct s_animation
 {
 	t_img		step1;
 	t_img		step2;
@@ -42,13 +43,12 @@ typedef struct s_game
 	t_img		step5;
 	t_img		step6;
 	t_img		step7;
-	t_img		mirror1;
-	t_img		mirror2;
-	t_img		mirror3;
-	t_img		mirror4;
-	t_img		mirror5;
-	t_img		mirror6;
-	t_img		mirror7;
+}				t_animation;
+
+typedef struct s_game
+{
+	t_animation rigth;
+	t_animation left;
 	t_img		coin;
 	t_img		door;
 	t_img		play;
@@ -129,5 +129,6 @@ void	prep_sprite(t_mlx *mlx); // not really but no space
 
 // animations tryout
 void animationgen(t_mlx *mlx);
+void left_side_anigen(t_mlx *mlx);
 void animationdestroy(t_mlx *mlx);
 #endif

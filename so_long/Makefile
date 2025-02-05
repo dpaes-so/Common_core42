@@ -16,7 +16,7 @@ NAME = so_long
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-SRC_FILES =	main.c aux.c map_func.c map_func2.c events.c generation.c sprite_gen.c more_aux.c
+SRC_FILES =	main.c aux.c map_func.c map_func2.c events.c generation.c sprite_gen.c more_aux.c animation.c
 OBJS = $(SRC_FILES:.c=.o)
 LIBFT = includes/libft/libft.a
 
