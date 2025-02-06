@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:19:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/30 16:19:21 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:19:10 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	map_assets_gen(t_map *map, int *x, int *y)
 	len = ft_strlen(map->map[0]) - 2;
 	if (len > 20 || map->row > 12)
 	{
-		ft_printf("map to big\n");
+		ft_printf("Error\nMap to big\n");
 		free_map(map);
 		exit(0);
 	}

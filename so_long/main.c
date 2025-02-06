@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:01:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/05 15:11:26 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:12:09 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	map_parse(char *map_file, t_map *map)
 		free(str);
 	}
 	close(fd);
+	if (map->row <= 0)
+		return (0);
 	map->map = make_maptrix(map->row, map_file);
 	map->col = ft_strlen(map->map[1]);
 	map_check(map);
@@ -125,7 +127,7 @@ int	main(int ac, char **av)
 	{
 		if (!map_parse(av[1], &mlx.map))
 		{
-			ft_printf("invalid map file");
+			ft_printf("Error\nInvalid map file");
 			exit(0);
 		}
 		mlx.game.delay = 0;
@@ -137,5 +139,5 @@ int	main(int ac, char **av)
 		mlx_loop(mlx.mlx);
 	}
 	else
-		ft_printf("please input 1 argument");
+		ft_printf("Error\nPlease input 1 argument");
 }

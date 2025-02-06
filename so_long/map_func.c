@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:00:07 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/05 15:19:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:10:45 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	map_check(t_map *map)
 	f = check_path(map);
 	if (!f)
 	{
-		ft_printf("the map is not possible");
+		ft_printf("Error\nthe map is not possible");
 		free_map(map);
 		exit(0);
 	}

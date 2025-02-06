@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/07 11:34:53 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/01/30 14:10:57 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/02/06 14:17:59 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIBFT = includes/libft/libft.a
 all: $(NAME) 
 
 $(NAME):$(OBJS) $(LIBFT)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -g -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -g -o $(NAME)
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
@@ -32,8 +32,10 @@ $(LIBFT):
 	@$(MAKE) -C includes/libft
 clean:
 	@rm -f $(OBJS)
+	@make clean -C includes/libft
 fclean:clean
 	@rm -f $(NAME)
+	@make fclean -C includes/libft
 
 re: fclean all
 

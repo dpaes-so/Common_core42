@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:29:32 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/30 14:13:06 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:10:09 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_map(t_map *map)
 
 void	wallerror(t_map *map)
 {
-	ft_printf("the map its not closed\n");
+	ft_printf("Error\nThe map its not closed\n");
 	free_map(map);
 	exit(0);
 }

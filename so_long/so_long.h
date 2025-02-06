@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:34:54 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/30 14:49:33 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:12:39 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
-
 typedef struct s_animation
 {
 	t_img		step1;
@@ -47,14 +46,14 @@ typedef struct s_animation
 
 typedef struct s_game
 {
-	t_animation rigth;
-	t_animation left;
+	t_animation	rigth;
+	t_animation	left;
 	t_img		coin;
 	t_img		door;
 	t_img		play;
 	t_img		rock;
 	t_img		floor;
-	int 		flag;
+	int			flag;
 	int			moves;
 	int			delay;
 }				t_game;
@@ -125,10 +124,10 @@ void			window_generation(t_mlx *mlx);
 void			map_assets_gen(t_map *map, int *x, int *y);
 void			map_gen(t_mlx *mlx, t_map *map);
 void			put_player(t_mlx *mlx, t_map *map, int x, int y);
-void	prep_sprite(t_mlx *mlx); // not really but no space
+void			prep_sprite(t_mlx *mlx);
 
 // animations tryout
-void animationgen(t_mlx *mlx);
-void left_side_anigen(t_mlx *mlx);
-void animationdestroy(t_mlx *mlx);
+void			animationgen(t_mlx *mlx);
+void			left_side_anigen(t_mlx *mlx);
+void			animationdestroy(t_mlx *mlx);
 #endif

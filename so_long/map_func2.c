@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:27:57 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/05 15:19:03 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:20:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	map_type(t_map *map)
 	{
 		if (((ft_strlen(map->map[i]) != len) || (map->row < 3)))
 		{
-			ft_printf("Map is not a rectangle or too short");
+			ft_printf("Error\nMap is not a rectangle or too short");
 			free_map(map);
 			exit(0);
 		}
@@ -101,25 +101,25 @@ void	check_2_many(t_map *map)
 {
 	if (map->player_n != 1)
 	{
-		ft_printf("the map needs one player");
+		ft_printf("Error\nThe map needs one player");
 		free_map(map);
 		exit(0);
 	}
 	if (map->coinn < 1)
 	{
-		ft_printf("please add at least 1 collectible");
+		ft_printf("Error\nPlease add at least 1 collectible");
 		free_map(map);
 		exit(0);
 	}
 	if (map->exitn != 1)
 	{
-		ft_printf("the map needs to have exactly 1 exit");
+		ft_printf("Error\nThe map needs to have exactly 1 exit\n");
 		free_map(map);
 		exit(0);
 	}
 	if (map->extra > 0)
 	{
-		ft_printf("not know character in the map");
+		ft_printf("Error\nnot know character in the map");
 		free_map(map);
 		exit(0);
 	}
