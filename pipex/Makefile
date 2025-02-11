@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaes-so <dpaes-so@student.42lisboa.com    +#+  +:+       +#+         #
+#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 16:28:14 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/02/10 16:29:32 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/02/11 16:07:20 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,19 +22,19 @@ LIBFT = includes/libft/libft.a
 all: $(NAME) 
 
 $(NAME):$(OBJS) $(LIBFT)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) -o $(NAME)
 
 %.o: %.c
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) -c $< -o $@
 	
 $(LIBFT):
-	@$(MAKE) -C includes/libft
+	@$(MAKE) -C includes/libft -s
 clean:
 	@rm -f $(OBJS)
-	@make clean -C includes/libft
+	@make clean -C includes/libft -s
 fclean:clean
 	@rm -f $(NAME)
-	@make fclean -C includes/libft
+	@make fclean -C includes/libft -s
 
 re: fclean all
 
