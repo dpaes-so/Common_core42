@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 16:28:14 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/02/11 16:07:20 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/02/12 14:59:39 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-SRC_FILES =	pipex.c
+SRC_FILES =	pipex.c aux.c
 OBJS = $(SRC_FILES:.c=.o)
 LIBFT = includes/libft/libft.a
 
