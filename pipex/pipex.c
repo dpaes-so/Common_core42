@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:23:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/11 18:30:49 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/12 00:03:31 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,14 @@ void	pipex(char **av,int ac)
     int pipefd[2];
     
 	ft_printf("IM ACCESIBLE = %s\n",av[2]);
-    if(access(av[ac -1],F_OK) < 0)
-        open("outfile",O_CREAT);
+    open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if(access(av[ac -1],F_OK | R_OK |W_OK) < 0)
     {
         ft_printf("Error\n cant accest outfile");
         exit(0);
     }
-    pid = fork();
     pipe(pipefd);
+    pid = fork();
     if (pid < 0)
         exit(0);
     if(pid == 0)
