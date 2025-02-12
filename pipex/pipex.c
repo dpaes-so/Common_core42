@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:23:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/12 16:36:36 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:24:25 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	pprocess(int *pipefd, char **path, char **av)
     close(pipefd[0]);
     dup2(pipefd[1],1);
     close(pipefd[1]);
+    while(argument_list[i])
+    {
+        ft_printf("HERE BITCH%s\n",argument_list[i]);
+        i++;
+    }
+    i = 0;
 	while (path[i])
 	{
 		exec = ft_strjoin(path[i], argument_list[0]);
