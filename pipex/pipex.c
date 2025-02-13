@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:23:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/12 17:24:25 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:46:24 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,19 @@ void	pprocess(int *pipefd, char **path, char **av)
 {
 	int		i;
 	char	*exec;
+	int pid;
 	char	**argument_list = ft_split(av[2], ' ');
 
 	i = 0;
     close(pipefd[0]);
     dup2(pipefd[1],1);
     close(pipefd[1]);
-    while(argument_list[i])
-    {
-        ft_printf("HERE BITCH%s\n",argument_list[i]);
-        i++;
-    }
     i = 0;
 	while (path[i])
 	{
 		exec = ft_strjoin(path[i], argument_list[0]);
 		execve(exec, argument_list, NULL);
+		free(exec);
 		i++;
 	}
 }
@@ -39,6 +36,7 @@ void	cprocess(int *pipefd, char **path, char **av)
 {
     int		i;
 	char	*exec;
+	int pid;
 	char	**argument_list = ft_split(av[3], ' ');
 
 	i = 0;
@@ -49,6 +47,7 @@ void	cprocess(int *pipefd, char **path, char **av)
 	{
 		exec = ft_strjoin(path[i], argument_list[0]);
 		execve(exec, argument_list, NULL);
+		free(exec);
 		i++;
 	}
 }
@@ -62,7 +61,7 @@ void	pipex(char **av, int ac, char **path)
 		ft_printf("Error\n cant accest outfile");
 		exit(0);
 	}
-	open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	open(av[ac - 1], O_CREAT | O_WRONLY, 0644);
 	pipe(pipefd);
 	pid = fork();
 	if (pid < 0)
