@@ -10,6 +10,7 @@ void	pprocess(t_pipe pipe, char *envp[])
 		exit(0);
 	argument_list = ft_split(pipe.av[2], ' ');
 	i = 0;
+	dup2(pipe.infile_fd,0);
 	close(pipe.pipefd[0]);
 	dup2(pipe.pipefd[1], 1);
 	close(pipe.pipefd[1]);
@@ -30,7 +31,7 @@ void	cprocess(t_pipe pipe, char *envp[])
 	char	*exec;
 	char	**argument_list;
 
-	if (!pipe.av[3])
+	if (!*pipe.av[3])
 		exit(0);
 	argument_list = ft_split(pipe.av[3], ' ');
 	i = 0;
@@ -55,16 +56,13 @@ void	pipex(t_pipe pipet, char *envp[])
 
 	pipet.outfile_fd = open(pipet.av[pipet.ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	pipet.infile_fd = open(pipet.av[1],O_RDONLY);
 	if (pipet.outfile_fd < 0)
 	{
 		ft_printf("Error\n cant acces outfile");
 		exit(0);
 	}
-	if (pipe(pipet.pipefd) == -1)
-	{
-		perror("pipe error");
-		exit(1);
-	}
+	pipe(pipet.pipefd);
 	pid = fork();
 	if (pid < 0)
 		exit(0);
