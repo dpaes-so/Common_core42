@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <time.h>
 
 #define NUM_PLAYERS 4
 #define WINNING_POSITION 12
@@ -18,8 +19,7 @@ typedef struct
 int	get_ai_choice(void)
 {
 	int	choices[3] = {1, 3, 5};
-
-	return (choices[arc4random_uniform(3)]);
+	return (choices[rand() % 3]);
 }
 
 int	simulate_game(void)
@@ -79,6 +79,7 @@ int	simulate_game(void)
 
 int	main(void)
 {
+	srand(time(NULL));
 	int	result;
     int i;
     int pid[NUM_PROCESSES];
