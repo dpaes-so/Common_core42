@@ -7,7 +7,7 @@
 #define NUM_PLAYERS 4
 #define WINNING_POSITION 12
 #define NUM_SIMULATIONS 10000000
-#define NUM_PROCESSES 10
+#define NUM_PROCESSES 4
 
 typedef struct
 {
@@ -92,6 +92,7 @@ int	main(void)
         pid[i] = fork();
         if(pid[i] == 0)
         {
+			printf("CHILd made %d\n",i);
             int procces;
             int child_result;
             

@@ -10,8 +10,10 @@ void	pprocess(t_pipe pipe, char *envp[])
 		exit(0);
 	argument_list = ft_split(pipe.av[2], ' ');
 	i = 0;
-	dup2(pipe.infile_fd,0);
+	close(pipe.outfile_fd);
 	close(pipe.pipefd[0]);
+	dup2(pipe.infile_fd,0);
+	close(pipe.infile_fd);
 	dup2(pipe.pipefd[1], 1);
 	close(pipe.pipefd[1]);
 	while (pipe.path[i])
@@ -35,10 +37,12 @@ void	cprocess(t_pipe pipe, char *envp[])
 		exit(0);
 	argument_list = ft_split(pipe.av[3], ' ');
 	i = 0;
+	close(pipe.infile_fd);
 	close(pipe.pipefd[1]);
 	dup2(pipe.pipefd[0], 0);
 	close(pipe.pipefd[0]);
 	dup2(pipe.outfile_fd, 1);
+	close(pipe.outfile_fd);
 	while (pipe.path[i])
 	{
 		exec = ft_strjoin(pipe.path[i], argument_list[0]);
@@ -68,7 +72,10 @@ void	pipex(t_pipe pipet, char *envp[])
 		exit(0);
 	if (pid == 0)
 		cprocess(pipet, envp);
-	else
+	pid = fork();
+	if (pid < 0)
+		exit(0);
+	if (pid == 0)
 		pprocess(pipet, envp);
 }
 int	main(int ac, char **av, char *envp[])
@@ -86,6 +93,7 @@ int	main(int ac, char **av, char *envp[])
 		pipe.ac = ac;
 		pipe.av = av;
 		pipex(pipe, envp);
+		wait(NULL);
 		freetrix(pipe.path);
 	}
 	ft_printf("\n");

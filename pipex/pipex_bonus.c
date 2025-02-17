@@ -53,7 +53,7 @@ void	cprocess(t_pipe pipe, char *envp[])
 void	pipex(t_pipe pipet, char *envp[])
 {
 	int	pid;
-
+	
 	pipet.outfile_fd = open(pipet.av[pipet.ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	pipet.infile_fd = open(pipet.av[1],O_RDONLY);
@@ -68,8 +68,36 @@ void	pipex(t_pipe pipet, char *envp[])
 		exit(0);
 	if (pid == 0)
 		cprocess(pipet, envp);
-	else
+	if (pid < 0)
+		exit(0);
+	if (pid == 0)
+		cprocess(pipet, envp);
+	pid = fork();
+	if (pid < 0)
+		exit(0);
+	if (pid == 0)
 		pprocess(pipet, envp);
+}
+void here_doc(t_pipe pipe)
+{
+	char *str;
+	int fd;
+	int i;
+
+	fd = open(pipe.av[1],O_CREAT | O_RDWR,0644);
+	write(fd,"HEY",3);
+	while(1)
+	{
+		i = 0;
+		str = get_next_line(0);
+		if(!ft_strncmp(str,pipe.av[2],ft_strlen(pipe.av[2])))
+			break;
+		while(str[i])
+			write(fd,&str[i++],1);
+		free(str);
+	}
+	close(fd);
+	free(str);
 }
 int	main(int ac, char **av, char *envp[])
 {
@@ -77,19 +105,20 @@ int	main(int ac, char **av, char *envp[])
 
 	if (ac > 4)
 	{
-		ft_printf("IM THE BONUS MF");
+		pipe.ac = ac;
+		pipe.av = av;
+		if(!ft_strncmp(pipe.av[1],"here_doc",8))
+			here_doc(pipe);
 		if (access(av[1], F_OK | R_OK) < 0)
 		{
 			ft_printf("Cant access file or it does not exist\n");
 			exit(0);
 		}
 		pipe.path = path_finder(envp);
-		pipe.ac = ac;
-		pipe.av = av;
-
 		pipex(pipe, envp);
 		freetrix(pipe.path);
 	}
-	else	ft_printf("Not enough arguments");
+	else
+		ft_printf("Not enough arguments");
 	ft_printf("\n");
 }
