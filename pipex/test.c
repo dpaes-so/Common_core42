@@ -7,7 +7,7 @@
 #define NUM_PLAYERS 4
 #define WINNING_POSITION 12
 #define NUM_SIMULATIONS 10000000
-#define NUM_PROCESSES 4
+#define NUM_PROCESSES 10
 
 typedef struct
 {
@@ -22,7 +22,7 @@ int	get_ai_choice(void)
 	return (choices[rand() % 3]);
 }
 
-int	simulate_game(void)
+int	simulate_bomb(void)
 {
 	Player	players[NUM_PLAYERS];
 	int		i;
@@ -99,7 +99,7 @@ int	main(void)
             procces = 0;
             while(procces < NUM_SIMULATIONS/NUM_PROCESSES)
             {
-	            child_result += simulate_game();
+	            child_result += simulate_bomb();
                 procces++;
             }
             exit(child_result);
