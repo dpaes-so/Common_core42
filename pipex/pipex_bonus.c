@@ -98,6 +98,7 @@ void here_doc(t_pipe pipe)
 	}
 	close(fd);
 	free(str);
+	
 }
 int	main(int ac, char **av, char *envp[])
 {
