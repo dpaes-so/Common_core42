@@ -1,21 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/02/19 11:56:40 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-void	pprocess(t_pipe pipe, char *envp[])
+void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
 {
 	int		i;
 	char	*exec;
-	char	**argument_list;
 
-	if (!*pipe.av[2])
-		exit(0);
-	argument_list = ft_split(pipe.av[2], ' ');
 	i = 0;
-	close(pipe.outfile_fd);
-	close(pipe.pipefd[0]);
-	dup2(pipe.infile_fd,0);
-	close(pipe.infile_fd);
-	dup2(pipe.pipefd[1], 1);
-	close(pipe.pipefd[1]);
 	while (pipe.path[i])
 	{
 		exec = ft_strjoin(pipe.path[i], argument_list[0]);
@@ -24,77 +26,75 @@ void	pprocess(t_pipe pipe, char *envp[])
 		i++;
 	}
 	freetrix(argument_list);
-	perror("Command not found");
-	exit(1);
+	freetrix(pipe.path);
+	perror("Command not found\n");
+	exit(0);
 }
-void	cprocess(t_pipe pipe, char *envp[])
-{
-	int		i;
-	char	*exec;
-	char	**argument_list;
 
-	if (!*pipe.av[3])
-		exit(0);
-	argument_list = ft_split(pipe.av[3], ' ');
-	i = 0;
-	close(pipe.infile_fd);
-	close(pipe.pipefd[1]);
-	dup2(pipe.pipefd[0], 0);
-	close(pipe.pipefd[0]);
-	dup2(pipe.outfile_fd, 1);
-	close(pipe.outfile_fd);
-	while (pipe.path[i])
-	{
-		exec = ft_strjoin(pipe.path[i], argument_list[0]);
-		execve(exec, argument_list, envp);
-		free(exec);
-		i++;
-	}
-	freetrix(argument_list);
-	perror("Command not found");
-	exit(1);
-}
-void	pipex(t_pipe pipet, char *envp[])
+void	pipex(t_pipe pipet, char *envp[], int i)
 {
 	int	pid;
 
-	pipet.outfile_fd = open(pipet.av[pipet.ac - 1],
+	pipe(pipet.pipefd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(pipet.pipefd[0]);
+		dup2(pipet.pipefd[1], 1);
+		cmdexec(pipet, envp, ft_split(pipet.av[i], ' '));
+	}
+	else
+	{
+		wait(NULL);
+		close(pipet.pipefd[1]);
+		dup2(pipet.pipefd[0], 0);
+	}
+}
+
+int	file_parse(t_pipe *pipe, char **av)
+{
+	int	i;
+
+	pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	pipet.infile_fd = open(pipet.av[1],O_RDONLY);
-	if (pipet.outfile_fd < 0)
+	if (pipe->outfile_fd < 0)
 	{
 		ft_printf("Error\n cant acces outfile");
 		exit(0);
 	}
-	pipe(pipet.pipefd);
-	pid = fork();
-	if (pid < 0)
+	i = 1;
+	if (access(av[1], F_OK | R_OK) < 0)
+	{
+		ft_printf("Cant access file or it does not exist\n");
 		exit(0);
-	if (pid == 0)
-		cprocess(pipet, envp);
-	pid = fork();
-	if (pid < 0)
-		exit(0);
-	if (pid == 0)
-		pprocess(pipet, envp);
+	}
+	return (i);
 }
+
 int	main(int ac, char **av, char *envp[])
 {
-	t_pipe pipe;
+	t_pipe	pipe;
+	int		i;
+	int		pid;
 
 	if (ac == 5)
 	{
-		if (access(av[1], F_OK | R_OK) < 0)
-		{
-			ft_printf("Cant access file or it does not exist\n");
-			exit(0);
-		}
-		pipe.path = path_finder(envp);
 		pipe.ac = ac;
 		pipe.av = av;
-		pipex(pipe, envp);
-		wait(NULL);
+		i = file_parse(&pipe, av);
+		pipe.infile_fd = open(pipe.av[1], O_RDONLY);
+		dup2(pipe.infile_fd, 0);
+		pipe.path = path_finder(envp);
+		while (++i < pipe.ac - 2)
+			pipex(pipe, envp, i);
+		dup2(pipe.outfile_fd, 1);
+		pid = fork();
+		if (pid == 0)
+			cmdexec(pipe, envp, ft_split(pipe.av[i], ' '));
 		freetrix(pipe.path);
+		close(pipe.outfile_fd);
 	}
-	ft_printf("\n");
+	else
+		ft_printf("Please input 5 arguments");
+	return (0);
 }

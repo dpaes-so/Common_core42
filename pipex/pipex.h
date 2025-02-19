@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:23:36 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/17 18:08:16 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:41:42 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 # include "includes/libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 # include <unistd.h>
-#include <sys/wait.h>
 
 typedef struct s_pipe
 {
 	int		ac;
 	char	**av;
 	char	**path;
-    int     infile_fd;
-    int     outfile_fd;
-    int     pipefd[2];
+	int		infile_fd;
+	int		outfile_fd;
+	int		pipefd[2];
 }			t_pipe;
 
 // aux

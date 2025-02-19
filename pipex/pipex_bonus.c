@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/02/19 11:52:57 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	here_doc(t_pipe *pipe)
@@ -20,6 +32,7 @@ void	here_doc(t_pipe *pipe)
 	close(fd);
 	free(str);
 }
+
 void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
 {
 	int		i;
@@ -58,12 +71,14 @@ void	pipex(t_pipe pipet, char *envp[], int i)
 		dup2(pipet.pipefd[0], 0);
 	}
 }
+
 int	file_parse(t_pipe *pipe, char **av)
 {
 	int	i;
 
-	if ((pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
-				O_CREAT | O_WRONLY | O_TRUNC, 0644)) < 0)
+	pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
+			O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (pipe->outfile_fd < 0)
 	{
 		ft_printf("Error\n cant acces outfile");
 		exit(0);
@@ -82,13 +97,14 @@ int	file_parse(t_pipe *pipe, char **av)
 	}
 	return (i);
 }
+
 int	main(int ac, char **av, char *envp[])
 {
 	t_pipe	pipe;
 	int		i;
 	int		pid;
 
-	if (ac > 1)
+	if (ac > 4)
 	{
 		pipe.ac = ac;
 		pipe.av = av;
@@ -103,7 +119,9 @@ int	main(int ac, char **av, char *envp[])
 		if (pid == 0)
 			cmdexec(pipe, envp, ft_split(pipe.av[i], ' '));
 		freetrix(pipe.path);
+		close(pipe.outfile_fd);
 	}
 	else
 		ft_printf("Not enough arguments");
+	return (0);
 }
