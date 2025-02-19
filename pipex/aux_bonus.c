@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 16:13:03 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:16:56 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**path_finder(char **envp)
 	while (envp[++i])
 		if (ft_strnstr(envp[i], "PATH", 4))
 			break ;
-	if(!envp[i])
+	if (!envp[i])
 	{
 		ft_printf("Cant find path");
 		exit(0);
