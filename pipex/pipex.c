@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 15:10:19 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:27:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
 	}
 	freetrix(argument_list);
 	freetrix(pipe.path);
-	ft_putstr_fd("Command not found",2);
+	ft_putstr_fd("Command not found", 2);
 	exit(0);
 }
 
