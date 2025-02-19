@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 14:56:19 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:57:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 	}
 	else
-		ft_putstr_fd("Please input 5 arguments");
+		ft_putstr_fd("Please input 5 arguments",2);
 	return (0);
 }
