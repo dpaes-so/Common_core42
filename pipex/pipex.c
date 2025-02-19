@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 11:56:40 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:56:19 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
 	}
 	freetrix(argument_list);
 	freetrix(pipe.path);
-	perror("Command not found\n");
+	perror("Command not found");
 	exit(0);
 }
 
@@ -59,13 +59,13 @@ int	file_parse(t_pipe *pipe, char **av)
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipe->outfile_fd < 0)
 	{
-		ft_printf("Error\n cant acces outfile");
+		perror("Error\n cant acces outfile");
 		exit(0);
 	}
 	i = 1;
 	if (access(av[1], F_OK | R_OK) < 0)
 	{
-		ft_printf("Cant access file or it does not exist\n");
+		perror("Cant access file or it does not exist\n");
 		exit(0);
 	}
 	return (i);
@@ -95,6 +95,6 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 	}
 	else
-		ft_printf("Please input 5 arguments");
+		ft_putstr_fd("Please input 5 arguments");
 	return (0);
 }

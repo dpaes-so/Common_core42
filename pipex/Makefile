@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 16:28:14 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/02/19 11:57:39 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/02/19 14:49:15 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,4 +46,4 @@ fclean:clean
 
 re: fclean all
 
-.PHONY: all fclean clean re
+.PHONY: all fclean clean re bonus

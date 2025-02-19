@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 12:49:06 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:38:07 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
 	}
 	freetrix(argument_list);
 	freetrix(pipe.path);
-	perror("Command not found\n");
+	perror("Command not found");
 	exit(0);
 }
 
@@ -72,30 +72,32 @@ void	pipex(t_pipe pipet, char *envp[], int i)
 	}
 }
 
-int	file_parse(t_pipe *pipe, char **av)
+void	file_parse(t_pipe *pipe, char **av, int *i)
 {
-	int	i;
-
 	pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipe->outfile_fd < 0)
 	{
-		ft_printf("Error\n cant acces outfile");
+		perror("Error\n cant acces outfile");
 		exit(0);
 	}
 	if (!ft_strncmp(pipe->av[1], "here_doc", 8))
 	{
+		if (pipe->ac < 6)
+		{
+			ft_putstr_fd("Please input at least 2 commands with here_doc", 2);
+			exit(0);
+		}
 		here_doc(pipe);
-		i = 2;
+		*i = 2;
 	}
 	else
-		i = 1;
+		*i = 1;
 	if (access(av[1], F_OK | R_OK) < 0)
 	{
-		ft_printf("Cant access file or it does not exist\n");
+		perror("Cant access file or it does not exist");
 		exit(0);
 	}
-	return (i);
 }
 
 int	main(int ac, char **av, char *envp[])
@@ -108,7 +110,7 @@ int	main(int ac, char **av, char *envp[])
 	{
 		pipe.ac = ac;
 		pipe.av = av;
-		i = file_parse(&pipe, av);
+		file_parse(&pipe, av, &i);
 		pipe.infile_fd = open(pipe.av[1], O_RDONLY);
 		dup2(pipe.infile_fd, 0);
 		pipe.path = path_finder(envp);
@@ -123,6 +125,6 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 	}
 	else
-		ft_printf("Not enough arguments");
+		ft_putstr_fd("Not enough arguments", 2);
 	return (0);
 }
