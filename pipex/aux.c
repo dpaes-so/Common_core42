@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 16:24:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:45:33 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	freetrix(char **matrix)
 	free(matrix);
 }
 
-char	**path_finder(char **envp)
+char	**path_finder(char **envp, t_pipe pipe)
 {
 	int		i;
 	char	*temp;
@@ -40,6 +40,7 @@ char	**path_finder(char **envp)
 	if (!envp[i])
 	{
 		ft_printf("Cant find path");
+		free(pipe.pid_array);
 		exit(0);
 	}
 	envp[i] = envp[i] + 5;
@@ -53,4 +54,23 @@ char	**path_finder(char **envp)
 		i++;
 	}
 	return (split);
+}
+
+void	clean(t_pipe pipe)
+{
+	free(pipe.pid_array);
+	freetrix(pipe.path);
+}
+
+void	wait_child(int *pid_array, int ac)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < ac - 3)
+	{
+		waitpid(pid_array[i], &status, 0);
+		i++;
+	}
 }

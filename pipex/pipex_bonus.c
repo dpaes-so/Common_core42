@@ -6,11 +6,11 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/19 16:27:43 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:20:00 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	here_doc(t_pipe *pipe)
 {
@@ -33,7 +33,7 @@ void	here_doc(t_pipe *pipe)
 	free(str);
 }
 
-void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
+void	cmdexec(t_pipe pipe, char *envp[], char **argument_list, int *pid_array)
 {
 	int		i;
 	char	*exec;
@@ -48,32 +48,38 @@ void	cmdexec(t_pipe pipe, char *envp[], char **argument_list)
 	}
 	freetrix(argument_list);
 	freetrix(pipe.path);
+	free(pid_array);
 	ft_putstr_fd("Command not found\n", 2);
 	exit(0);
 }
 
-void	pipex(t_pipe pipet, char *envp[], int i)
+void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array)
 {
-	int	pid;
+	int			pid;
+	static int	j;
 
 	pipe(pipet.pipefd);
 	pid = fork();
+	pid_array[j] = pid;
+	j++;
 	if (pid == 0)
 	{
 		close(pipet.pipefd[0]);
 		dup2(pipet.pipefd[1], 1);
-		cmdexec(pipet, envp, ft_split(pipet.av[i], ' '));
+		cmdexec(pipet, envp, ft_split(pipet.av[i], ' '), pid_array);
 	}
 	else
 	{
-		wait(NULL);
 		close(pipet.pipefd[1]);
 		dup2(pipet.pipefd[0], 0);
 	}
 }
 
-void	file_parse(t_pipe *pipe, char **av, int *i)
+void	file_parse(t_pipe *pipe, char **av, int *i, int ac)
 {
+	pipe->ac = ac;
+	pipe->av = av;
+	*i = 1;
 	pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipe->outfile_fd < 0)
@@ -91,8 +97,6 @@ void	file_parse(t_pipe *pipe, char **av, int *i)
 		here_doc(pipe);
 		*i = 2;
 	}
-	else
-		*i = 1;
 	if (access(av[1], F_OK | R_OK) < 0)
 	{
 		perror("Cant access file or it does not exist");
@@ -108,23 +112,23 @@ int	main(int ac, char **av, char *envp[])
 
 	if (ac > 4)
 	{
-		pipe.ac = ac;
-		pipe.av = av;
-		file_parse(&pipe, av, &i);
+		pipe.pid_array = malloc(sizeof(int) * (ac - 3));
+		file_parse(&pipe, av, &i, ac);
 		pipe.infile_fd = open(pipe.av[1], O_RDONLY);
 		dup2(pipe.infile_fd, 0);
-		pipe.path = path_finder(envp);
+		pipe.path = path_finder(envp, pipe);
 		while (++i < pipe.ac - 2)
-			pipex(pipe, envp, i);
+			pipex(pipe, envp, i, pipe.pid_array);
 		dup2(pipe.outfile_fd, 1);
 		pid = fork();
+		pipe.pid_array[ac - 4] = pid;
 		if (pid == 0)
-			cmdexec(pipe, envp, ft_split(pipe.av[i], ' '));
-		freetrix(pipe.path);
-		unlink("here_doc");
+			cmdexec(pipe, envp, ft_split(pipe.av[i], ' '), pipe.pid_array);
+		wait_child(pipe.pid_array, ac, pipe);
+		clean(pipe);
 		close(pipe.outfile_fd);
 	}
 	else
-		ft_putstr_fd("Not enough arguments", 2);
+		ft_putstr_fd("Not enough arguments ", 2);
 	return (0);
 }
