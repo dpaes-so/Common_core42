@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/20 16:38:16 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:18:39 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	file_parse(t_pipe *pipe, char **av, int *i, int ac)
 	pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipe->outfile_fd < 0)
-		return (perror("Error"), exit(0));
+		return (perror("Error"), free(pipe->pid_array), exit(0));
 	if (!ft_strncmp(pipe->av[1], "here_doc", 8))
 	{
 		if (pipe->ac < 6)
@@ -97,6 +97,7 @@ void	file_parse(t_pipe *pipe, char **av, int *i, int ac)
 	}
 	if (access(av[1], F_OK | R_OK) < 0)
 	{
+		free(pipe->pid_array);
 		perror("Cant access file or it does not exist");
 		exit(0);
 	}

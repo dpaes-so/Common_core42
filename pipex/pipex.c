@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/20 16:05:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:08:07 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	file_parse(t_pipe *pipe, char **av, int *i, int ac)
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipe->outfile_fd < 0)
 	{
+		free(pipe->pid_array);
 		perror("Error");
 		exit(0);
 	}
