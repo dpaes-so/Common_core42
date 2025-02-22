@@ -60,6 +60,7 @@ void	clean(t_pipe pipe)
 {
 	free(pipe.pid_array);
 	freetrix(pipe.path);
+	close(pipe.outfile_fd);
 }
 
 void	wait_child(int *pid_array, int ac)
