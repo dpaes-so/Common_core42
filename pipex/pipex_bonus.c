@@ -135,6 +135,7 @@ int	main(int ac, char **av, char *envp[])
 			cmdexec(pipe, envp, ft_split(pipe.av[i], ' '), pipe.pid_array);
 		else
 			pipe.pid_array[ac - 4] = pid;
+		close(0);
 		wait_child(pipe.pid_array, ac, pipe);
 		clean(pipe);
 	}
