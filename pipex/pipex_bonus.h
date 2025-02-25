@@ -36,4 +36,6 @@ void		freetrix(char **matrix);
 char		**path_finder(char **envp, t_pipe pipe);
 void		wait_child(int *pid_array, int ac, t_pipe pipe);
 void		clean(t_pipe pipe);
+//arg split
+char	**ft_arg_split(char const *s, char c);
 #endif

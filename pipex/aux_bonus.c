@@ -62,7 +62,6 @@ void	wait_child(int *pid_array, int ac, t_pipe pipe)
 	int	status;
 
 	i = 0;
-	// close(0);
 	while (i < ac - 3)
 	{
 		if (!ft_strncmp(pipe.av[1], "here_doc", 8))

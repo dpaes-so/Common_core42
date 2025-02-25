@@ -41,6 +41,11 @@ void	cmdexec(t_pipe pipe, char *envp[], char **argument_list, int *pid_array)
 	char	*exec;
 
 	i = 0;
+	while(argument_list[i])
+	{
+		ft_printf("str g = %s\n",argument_list[i]);
+		i++;
+	}
 	while (pipe.path[i] && argument_list[0])
 	{
 		exec = ft_strjoin(pipe.path[i], argument_list[0]);
@@ -65,6 +70,7 @@ void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array)
 	pid = fork();
 	pid_array[j] = pid;
 	j++;
+	ft_printf("str = %s\n",pipet.av[i]);
 	if (pid == 0)
 	{
 		close(pipet.pipefd[0]);

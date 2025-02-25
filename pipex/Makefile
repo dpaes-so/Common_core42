@@ -16,7 +16,7 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra
 
 SRC_FILES =	pipex.c aux.c
-SRCB_FILES = pipex_bonus.c aux_bonus.c
+SRCB_FILES = pipex_bonus.c aux_bonus.c arg_split_bonus.c
 OBJS = $(SRC_FILES:.c=.o)
 BONUS_OBJS = $(SRCB_FILES:.c=.o)
 LIBFT = includes/libft/libft.a
