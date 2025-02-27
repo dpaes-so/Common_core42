@@ -41,11 +41,6 @@ void	cmdexec(t_pipe pipe, char *envp[], char **argument_list, int *pid_array)
 	char	*exec;
 
 	i = 0;
-	while(argument_list[i])
-	{
-		ft_printf("str g = %s\n",argument_list[i]);
-		i++;
-	}
 	while (pipe.path[i] && argument_list[0])
 	{
 		exec = ft_strjoin(pipe.path[i], argument_list[0]);
@@ -70,13 +65,12 @@ void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array)
 	pid = fork();
 	pid_array[j] = pid;
 	j++;
-	ft_printf("str = %s\n",pipet.av[i]);
 	if (pid == 0)
 	{
 		close(pipet.pipefd[0]);
 		dup2(pipet.pipefd[1], 1);
 		close(pipet.pipefd[1]);
-		cmdexec(pipet, envp, ft_split(pipet.av[i], ' '), pid_array);
+		cmdexec(pipet, envp, ft_arg_split(pipet.av[i], ' '), pid_array);
 	}
 	else
 	{
@@ -138,7 +132,7 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 		pid = fork();
 		if (pid == 0)
-			cmdexec(pipe, envp, ft_split(pipe.av[i], ' '), pipe.pid_array);
+			cmdexec(pipe, envp,ft_arg_split(pipe.av[i], ' '), pipe.pid_array);
 		else
 			pipe.pid_array[ac - 4] = pid;
 		close(0);

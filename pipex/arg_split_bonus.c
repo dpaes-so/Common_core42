@@ -26,12 +26,13 @@ static int	countwords(const char *s)
         if(s[i] == '\'')
         {
             i++;
+			count++;
             while (s[i] != '\'' && s[i])
 			    i++;
             if(s[i] == '\'')
                 i++;
         }
-		if (s[i])
+		else if(s[i])
 			count++;
 		while (s[i] != ' ' && s[i])
 			i++;
@@ -63,7 +64,7 @@ static char	*wordalloc(char const **s, char c)
     str = (*s);
 	while (**s && **s != c)
 	{
-        if(**s == '\'')
+        if(**s && **s == '\'')
             quote_handle(&len,(char **)s,&str);
         else
         {
@@ -87,7 +88,6 @@ char	**ft_arg_split(char const *s, char c)
 		return (NULL);
 	i = 0;
 	stringnum = countwords(s);
-	ft_printf("worddsadaaaaaaaaaaaaaaaaaaas  = %d",stringnum);
 	result = malloc(sizeof(char *) * (stringnum + 1));
 	result[stringnum] = 0;
 	if (!result)
@@ -108,7 +108,7 @@ char	**ft_arg_split(char const *s, char c)
 }
 // int	main(void)
 // {
-// 	const char *str = "cut -d ' ' -f 1  ";
+// 	const char *str = "awk '{print $1}'"  ;
 // 	char delimiter = ' ';
 // 	char **result = ft_arg_split(str, delimiter);
 
