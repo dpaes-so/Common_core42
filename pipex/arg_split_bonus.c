@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   arg_split_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:01:18 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/11/14 15:10:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:08:11 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	countwords(const char *s)
 
 	i = 0;
 	count = 0;
-	while (s[i])
+	while (s[i]) 
 	{
 		while (s[i] == ' ' && s[i])
 			i++;
@@ -89,6 +89,7 @@ char	**ft_arg_split(char const *s, char c)
 	i = 0;
 	stringnum = countwords(s);
 	result = malloc(sizeof(char *) * (stringnum + 1));
+	ft_printf("str = %d",stringnum);
 	result[stringnum] = 0;
 	if (!result)
 		return (NULL);
@@ -106,35 +107,35 @@ char	**ft_arg_split(char const *s, char c)
 	}
 	return (result);
 }
-// int	main(void)
-// {
-// 	const char *str = "awk '{print $1}'"  ;
-// 	char delimiter = ' ';
-// 	char **result = ft_arg_split(str, delimiter);
+int	main(void)
+{
+	const char *str = "cut -d ''\' -f 1";
+	char delimiter = ' ';
+	char **result = ft_arg_split(str, delimiter);
 
-// 	if (result)
-// 	{
-//         int i = 0;
-// 		while(result[i] != NULL)
-// 		{
-//             int j = 0;
-//             while(result[i][j])
-//             {
-// 			    printf("Substring %d: %c\n", i + 1, result[i][j]);
-//                 j++;
-//             }
-//             ft_printf("j = %d\n",j);
-//             i++;
-// 		}
-// 		for (int i = 0; result[i] != NULL; i++)
-// 		{
-// 			free(result[i]); // Free each allocated substring
-// 		}
-// 		free(result); // Finally, free the array of pointers
-// 	}
-// 	else
-// 	{
-// 		printf("Memory allocation failed. (main)\n");
-// 	}
-// 	return (0);
-// }
+	if (result)
+	{
+        int i = 0;
+		while(result[i] != NULL)
+		{
+            int j = 0;
+            while(result[i][j])
+            {
+			    printf("Substring %d: %c\n", i + 1, result[i][j]);
+                j++;
+            }
+            ft_printf("j = %d\n",j);
+            i++;
+		}
+		for (int i = 0; result[i] != NULL; i++)
+		{
+			free(result[i]); // Free each allocated substring
+		}
+		free(result); // Finally, free the array of pointers
+	}
+	else
+	{
+		printf("Memory allocation failed. (main)\n");
+	}
+	return (0);
+}
