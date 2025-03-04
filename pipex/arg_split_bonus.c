@@ -44,13 +44,22 @@ static void quote_handle(int *len,char **s,char const **str)
 {
     (*s)++;
     *str = (*s);
-    while(**s != '\'')
+    while(**s && **s != '\'')
     {
         (*s)++;
 	    (*len)++;
     }
-    if (**s == '\'')
-        (*s)++; 
+	if(**s && **s == '\'')
+	{
+		(*s)++;
+	}
+	if(**s && **s == '\\')
+	{
+		(*s)++;
+		*str = (*s);
+		(*len)++;
+		(*s)++;
+	}
 }
 static char	*wordalloc(char const **s, char c)
 {
@@ -89,7 +98,6 @@ char	**ft_arg_split(char const *s, char c)
 	i = 0;
 	stringnum = countwords(s);
 	result = malloc(sizeof(char *) * (stringnum + 1));
-	ft_printf("str = %d",stringnum);
 	result[stringnum] = 0;
 	if (!result)
 		return (NULL);
@@ -107,35 +115,36 @@ char	**ft_arg_split(char const *s, char c)
 	}
 	return (result);
 }
-int	main(void)
-{
-	const char *str = "cut -d ''\' -f 1";
-	char delimiter = ' ';
-	char **result = ft_arg_split(str, delimiter);
+// int	main(void)
+// {
+// 	const char *str = "cut -d ' ' -f 1" ;
+// 	char delimiter = ' ';
+// 	char **result = ft_arg_split(str, delimiter);
 
-	if (result)
-	{
-        int i = 0;
-		while(result[i] != NULL)
-		{
-            int j = 0;
-            while(result[i][j])
-            {
-			    printf("Substring %d: %c\n", i + 1, result[i][j]);
-                j++;
-            }
-            ft_printf("j = %d\n",j);
-            i++;
-		}
-		for (int i = 0; result[i] != NULL; i++)
-		{
-			free(result[i]); // Free each allocated substring
-		}
-		free(result); // Finally, free the array of pointers
-	}
-	else
-	{
-		printf("Memory allocation failed. (main)\n");
-	}
-	return (0);
-}
+// 	if (result)
+// 	{
+// 		ft_printf("bla bla = %s\n",str);
+//         int i = 0;
+// 		while(result[i] != NULL)
+// 		{
+//             int j = 0;
+//             while(result[i][j])
+//             {
+// 			    printf("Substring %d: %c\n", i + 1, result[i][j]);
+//                 j++;
+//             }
+//             ft_printf("j = %d\n",j);
+//             i++;
+// 		}
+// 		for (int i = 0; result[i] != NULL; i++)
+// 		{
+// 			free(result[i]); // Free each allocated substring
+// 		}
+// 		free(result); // Finally, free the array of pointers
+// 	}
+// 	else
+// 	{
+// 		printf("Memory allocation failed. (main)\n");
+// 	}
+// 	return (0);
+// }
