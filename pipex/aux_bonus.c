@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/20 16:26:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:14:32 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char	**path_finder(char **envp, t_pipe pipe)
 			break ;
 	if (!envp[i])
 	{
-		ft_printf("Cant find path");
 		free(pipe.pid_array);
+		close(pipe.outfile_fd);
 		unlink("here_doc");
 		exit(0);
 	}

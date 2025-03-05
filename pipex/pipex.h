@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:23:36 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/20 15:45:19 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:30:30 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,14 @@ typedef struct s_pipe
 
 // main
 void		file_parse(t_pipe *pipe, char **av, int *i, int ac);
+void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array);
+void	cmdexec(t_pipe pipe, char *envp[], char **argument_list, int *pid_array);
 // aux
 void		freetrix(char **matrix);
 char		**path_finder(char **envp, t_pipe pipe);
 void		wait_child(int *pid_array, int ac);
 void		clean(t_pipe pipe);
+void	last_fork(t_pipe pipe, char **envp, int i);
+//arg split
+char	**ft_arg_split(char const *s, char c);
 #endif

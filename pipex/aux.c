@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/02/20 15:45:33 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:37:03 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,20 @@ char	**path_finder(char **envp, t_pipe pipe)
 	if (!envp[i])
 	{
 		ft_printf("Cant find path");
+		close(pipe.outfile_fd);
 		free(pipe.pid_array);
 		exit(0);
 	}
 	envp[i] = envp[i] + 5;
 	split = ft_split(envp[i], ':');
-	i = 0;
-	while (split[i])
+	i = -1;
+	while (split[++i])
 	{
 		temp = split[i];
 		split[i] = ft_strjoin(temp, "/");
 		free(temp);
-		i++;
 	}
 	return (split);
-}
-
-void	clean(t_pipe pipe)
-{
-	free(pipe.pid_array);
-	freetrix(pipe.path);
-	close(pipe.outfile_fd);
 }
 
 void	wait_child(int *pid_array, int ac)
@@ -74,4 +67,21 @@ void	wait_child(int *pid_array, int ac)
 		waitpid(pid_array[i], &status, 0);
 		i++;
 	}
+}
+
+void	clean(t_pipe pipe)
+{
+	free(pipe.pid_array);
+	freetrix(pipe.path);
+}
+
+void	last_fork(t_pipe pipe, char **envp, int i)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == 0)
+		cmdexec(pipe, envp, ft_arg_split(pipe.av[i], ' '), pipe.pid_array);
+	else
+		pipe.pid_array[pipe.ac - 4] = pid;
 }

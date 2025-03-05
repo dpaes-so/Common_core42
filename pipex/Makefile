@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 16:28:14 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/02/19 14:49:15 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/03/05 12:23:31 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ BONUS = pipex_bonus
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-SRC_FILES =	pipex.c aux.c
-SRCB_FILES = pipex_bonus.c aux_bonus.c arg_split_bonus.c
+SRC_FILES =	pipex.c aux.c arg_split.c
+SRCB_FILES = pipex_bonus.c aux_bonus.c arg_split.c more_aux_bonus.c
 OBJS = $(SRC_FILES:.c=.o)
 BONUS_OBJS = $(SRCB_FILES:.c=.o)
 LIBFT = includes/libft/libft.a
