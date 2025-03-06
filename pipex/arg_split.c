@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:01:18 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/05 15:13:15 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/06 11:10:39 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	**ft_arg_split(char const *s, char c)
 }
 // int	main(void)
 // {
-// 	const char *str = "grep 'anoter line'" ;
+// 	const char *str = "lat awk '{print $2}' " ;
 // 	char delimiter = ' ';
 // 	char **result = ft_arg_split(str, delimiter);
 
