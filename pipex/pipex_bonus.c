@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/06 12:19:39 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:30:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	here_doc(t_pipe *pipe)
 	{
 		i = 0;
 		str = get_next_line(0);
-		if (!ft_strncmp(str, pipe->av[2], ft_strlen(pipe->av[2])))
+		if (!str || !ft_strncmp(str, pipe->av[2], ft_strlen(pipe->av[2])))
 		{
 			free(str);
 			break ;
