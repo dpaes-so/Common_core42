@@ -6,37 +6,57 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/28 14:56:45 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:10:06 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	cmdexec(t_pipe pipe, char *envp[], char **argument_list, int *pid_array)
+
+void cmd_exit(char *exec,t_pipe pipe, int *pid_array,char **argument_list)
+{
+	if (access(exec, F_OK) < 0)
+	{
+		ft_putstr_fd("Pipex: Command not found\n", 2);
+		freetrix(argument_list);
+		freetrix(pipe.path);
+		free(pid_array);
+		close(pipe.outfile_fd);
+		free(exec);
+		exit(127);
+	}
+	if (access(exec, X_OK) < 0)
+	{
+		ft_putstr_fd("Permission denied\n", 2);
+		freetrix(argument_list);
+		freetrix(pipe.path);
+		free(pid_array);
+		close(pipe.outfile_fd);
+		free(exec);
+		exit(126);
+	}
+}
+void	cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array)
 {
 	int		i;
 	char	*exec;
+	char	**argument_list;
 
 	i = 0;
+	argument_list = ft_arg_split(str, ' ');
 	while (pipe.path[i] && argument_list[0])
 	{
-		exec = ft_strjoin(pipe.path[i], argument_list[0]);
-		if(access(exec,X_OK) < 0)
-		{
+		if(i > 0)
 			free(exec);
+		if (access(str, F_OK) < 0)
+			exec = ft_strjoin(pipe.path[i], argument_list[0]);
+		else
 			exec = ft_strdup(argument_list[0]);
-		}
 		close(pipe.outfile_fd);
 		execve(exec, argument_list, envp);
-		free(exec);
 		i++;
 	}
-	freetrix(argument_list);
-	freetrix(pipe.path);
-	free(pid_array);
-	close(pipe.outfile_fd);
-	ft_putstr_fd("Pipex: Command not found\n", 2);
-	exit(127);
+	cmd_exit(exec,pipe,pid_array,argument_list);
 }
 
 void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array)
@@ -57,7 +77,7 @@ void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array)
 			if (access(pipet.av[1], F_OK | R_OK) < 0)
 				return (close(pipet.outfile_fd), freetrix(pipet.path),
 					free(pid_array), exit(0));
-		cmdexec(pipet, envp, ft_arg_split(pipet.av[i], ' '), pid_array);
+		cmdexec(pipet, envp, pipet.av[i], pid_array);
 	}
 	else
 	{

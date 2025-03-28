@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/05 12:37:03 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:32:42 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	last_fork(t_pipe pipe, char **envp, int i)
 
 	pid = fork();
 	if (pid == 0)
-		cmdexec(pipe, envp, ft_arg_split(pipe.av[i], ' '), pipe.pid_array);
+		cmdexec(pipe, envp,pipe.av[i], pipe.pid_array);
 	else
 		pipe.pid_array[pipe.ac - 4] = pid;
 }
