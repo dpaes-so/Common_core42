@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/28 18:31:42 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:41:30 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ char	**path_finder(char **envp, t_pipe pipe)
 	return (split);
 }
 
-void	wait_child(int *pid_array, int ac,int *pstatus)
+void	wait_child(int *pid_array, int ac, int *pstatus)
 {
 	int	i;
-	int status;
+	int	status;
 
 	i = 0;
 	while (i < ac - 3)
@@ -67,9 +67,8 @@ void	wait_child(int *pid_array, int ac,int *pstatus)
 		waitpid(pid_array[i], &status, 0);
 		i++;
 	}
-	if(WIFEXITED(status))
+	if (WIFEXITED(status))
 		*pstatus = WEXITSTATUS(status);
-		
 }
 
 void	clean(t_pipe pipe)
@@ -85,7 +84,7 @@ void	last_fork(t_pipe pipe, char **envp, int i)
 
 	pid = fork();
 	if (pid == 0)
-		cmdexec(pipe, envp,pipe.av[i], pipe.pid_array);
+		cmdexec(pipe, envp, pipe.av[i], pipe.pid_array);
 	else
 		pipe.pid_array[pipe.ac - 4] = pid;
 }

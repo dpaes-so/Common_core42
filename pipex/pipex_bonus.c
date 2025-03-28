@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/28 15:02:52 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:42:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 		last_fork(pipe, envp, i);
 		close(0);
-		wait_child(pipe.pid_array, pipe.ac,pipe);
+		wait_child(pipe.pid_array, pipe.ac, pipe);
 		clean(pipe);
 	}
 	else

@@ -6,14 +6,13 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/28 18:28:48 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:41:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
-void cmd_exit(char *exec,t_pipe pipe, int *pid_array,char **argument_list)
+void	cmd_exit(char *exec, t_pipe pipe, int *pid_array, char **argument_list)
 {
 	if (access(exec, F_OK) < 0)
 	{
@@ -38,6 +37,7 @@ void cmd_exit(char *exec,t_pipe pipe, int *pid_array,char **argument_list)
 		exit(126);
 	}
 }
+
 void	cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array)
 {
 	int		i;
@@ -48,7 +48,7 @@ void	cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array)
 	argument_list = ft_arg_split(str, ' ');
 	while (pipe.path[i] && argument_list[0])
 	{
-		if(i > 0)
+		if (i > 0)
 			free(exec);
 		if (access(str, F_OK) < 0)
 			exec = ft_strjoin(pipe.path[i], argument_list[0]);
@@ -58,7 +58,7 @@ void	cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array)
 		execve(exec, argument_list, envp);
 		i++;
 	}
-	cmd_exit(exec,pipe,pid_array,argument_list);
+	cmd_exit(exec, pipe, pid_array, argument_list);
 }
 
 void	pipex(t_pipe pipet, char *envp[], int i, int *pid_array)
@@ -123,7 +123,7 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 		last_fork(pipe, envp, i);
 		close(0);
-		wait_child(pipe.pid_array, pipe.ac,&pipe.status);
+		wait_child(pipe.pid_array, pipe.ac, &pipe.status);
 		clean(pipe);
 	}
 	else
