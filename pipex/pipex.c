@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/28 18:10:06 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:28:48 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void cmd_exit(char *exec,t_pipe pipe, int *pid_array,char **argument_list)
 		free(pid_array);
 		close(pipe.outfile_fd);
 		free(exec);
+		pipe.status = 127;
 		exit(127);
 	}
 	if (access(exec, X_OK) < 0)
@@ -33,6 +34,7 @@ void cmd_exit(char *exec,t_pipe pipe, int *pid_array,char **argument_list)
 		free(pid_array);
 		close(pipe.outfile_fd);
 		free(exec);
+		pipe.status = 126;
 		exit(126);
 	}
 }
@@ -92,6 +94,7 @@ void	file_parse(t_pipe *pipe, char **av, int *i, int ac)
 	pipe->ac = ac;
 	pipe->av = av;
 	*i = 1;
+	pipe->status = 0;
 	pipe->outfile_fd = open(pipe->av[pipe->ac - 1],
 			O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipe->outfile_fd < 0)
@@ -120,7 +123,7 @@ int	main(int ac, char **av, char *envp[])
 		close(pipe.outfile_fd);
 		last_fork(pipe, envp, i);
 		close(0);
-		wait_child(pipe.pid_array, pipe.ac);
+		wait_child(pipe.pid_array, pipe.ac,&pipe.status);
 		clean(pipe);
 	}
 	else
