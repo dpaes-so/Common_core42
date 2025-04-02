@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/01 16:49:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:11:43 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	cmd_exit(char *exec, t_pipe pipe, int *pid_array, char **argument_list)
 		freetrix(pipe.path);
 		free(pid_array);
 		close(pipe.outfile_fd);
-		free(exec);
+		if (exec)
+			free(exec);
 		pipe.status = 127;
 		exit(127);
 	}
@@ -32,7 +33,8 @@ void	cmd_exit(char *exec, t_pipe pipe, int *pid_array, char **argument_list)
 		freetrix(pipe.path);
 		free(pid_array);
 		close(pipe.outfile_fd);
-		free(exec);
+		if (exec)
+			free(exec);
 		pipe.status = 126;
 		exit(126);
 	}
@@ -43,17 +45,22 @@ void	cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array)
 	int		i;
 	char	*exec;
 	char	**argument_list;
+	int		flag;
 
+	flag = 0;
 	i = 0;
 	argument_list = ft_arg_split(str, ' ');
-	while (pipe.path[i] && argument_list[0])
+	while (flag == 0 && argument_list[0])
 	{
 		if (i > 0)
 			free(exec);
-		if (access(str, F_OK) < 0)
+		if (pipe.path != NULL && access(str, F_OK) < 0)
 			exec = ft_strjoin(pipe.path[i], argument_list[0]);
 		else
+		{
 			exec = ft_strdup(argument_list[0]);
+			flag = 1;
+		}
 		close(pipe.outfile_fd);
 		execve(exec, argument_list, envp);
 		i++;
@@ -122,7 +129,6 @@ int	main(int ac, char **av, char *envp[])
 		dup2(pipe.outfile_fd, 1);
 		close(pipe.outfile_fd);
 		last_fork(pipe, envp, i);
-		close(0);
 		wait_child(pipe.pid_array, pipe.ac, &pipe.status);
 		clean(pipe);
 	}

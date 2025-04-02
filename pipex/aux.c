@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/28 18:41:30 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:58:15 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,13 @@ char	**path_finder(char **envp, t_pipe pipe)
 	char	*temp;
 	char	**split;
 
+	pipe.status = 0;
 	i = -1;
 	while (envp[++i])
 		if (ft_strnstr(envp[i], "PATH", 4))
 			break ;
 	if (!envp[i])
-	{
-		ft_printf("Cant find path");
-		close(pipe.outfile_fd);
-		free(pipe.pid_array);
-		exit(0);
-	}
+		return(NULL);
 	envp[i] = envp[i] + 5;
 	split = ft_split(envp[i], ':');
 	i = -1;
@@ -61,7 +57,8 @@ void	wait_child(int *pid_array, int ac, int *pstatus)
 	int	i;
 	int	status;
 
-	i = 0;
+	waitpid(pid_array[0], NULL, 0);
+	i = 1;
 	while (i < ac - 3)
 	{
 		waitpid(pid_array[i], &status, 0);
