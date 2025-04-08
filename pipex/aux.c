@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/08 13:31:58 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:41:30 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ void	wait_child(int *pid_array, int ac, int *pstatus)
 	i = 0;
 	while (i < ac - 3)
 	{
-		waitpid(pid_array[i], &status, 0);
+		wait(NULL);
+		ft_printf("DEAD CHILD\n");
 		i++;
 	}
-	if (WIFEXITED(status))
-		*pstatus = WEXITSTATUS(status);
 }
 
 void	clean(t_pipe pipe)
@@ -80,7 +79,11 @@ void	last_fork(t_pipe pipe, char **envp, int i)
 
 	pid = fork();
 	if (pid == 0)
+	{
+		dup2(pipe.outfile_fd, 1);
+		close(pipe.outfile_fd);
 		cmdexec(pipe, envp, pipe.av[i], pipe.pid_array);
+	}
 	else
 		pipe.pid_array[pipe.ac - 4] = pid;
 }
