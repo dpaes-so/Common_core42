@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:23:36 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/06 10:44:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:14:00 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+
 typedef struct s_pipe
 {
 	int		ac;
@@ -27,18 +28,19 @@ typedef struct s_pipe
 	int		outfile_fd;
 	int		pipefd[2];
 	int		*pid_array;
+	int		status;
+	int		origin;
 }			t_pipe;
 
 // main
 void		file_parse(t_pipe *pipe, char **av, int *i, int ac);
 void		pipex(t_pipe pipet, char *envp[], int i, int *pid_array);
-void		cmdexec(t_pipe pipe, char *envp[], char **argument_list,
-				int *pid_array);
+void		cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array);
 void		here_doc(t_pipe *pipe);
 // aux
 void		freetrix(char **matrix);
 char		**path_finder(char **envp, t_pipe pipe);
-void		wait_child(int *pid_array, int ac, t_pipe pipe);
+void		wait_child(int *pid_array, int ac, int *pstatus, t_pipe pipe);
 void		clean(t_pipe pipe);
 // more aux
 void		here_doc_check(t_pipe *pipe, int *i);

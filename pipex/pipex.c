@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:42:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/02 19:11:43 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:45:15 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	cmdexec(t_pipe pipe, char *envp[], char *str, int *pid_array)
 	{
 		if (i > 0)
 			free(exec);
-		if (pipe.path != NULL && access(str, F_OK) < 0)
+		if (pipe.path != NULL  && pipe.path[i] && access(str, F_OK) < 0)
 			exec = ft_strjoin(pipe.path[i], argument_list[0]);
 		else
 		{

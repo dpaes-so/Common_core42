@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:58:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/02 18:58:15 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:31:58 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	wait_child(int *pid_array, int ac, int *pstatus)
 	int	i;
 	int	status;
 
-	waitpid(pid_array[0], NULL, 0);
-	i = 1;
+	i = 0;
 	while (i < ac - 3)
 	{
 		waitpid(pid_array[i], &status, 0);
