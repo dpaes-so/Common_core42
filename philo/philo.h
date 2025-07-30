@@ -36,8 +36,10 @@ typedef struct t_philo
     int id;
     int totals_meals;
     long time_from_last_meal;
+    int meals_eaten;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
+    pthread_mutex_t meal_mutex;
     pthread_t thread_id;
     t_roundtable *table;
 

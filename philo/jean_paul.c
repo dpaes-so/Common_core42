@@ -43,7 +43,9 @@ void character_creation(t_roundtable *table)
         table->philos[id].right_fork = &table->forks[(id + 1) % table->chairs];
         table->philos[id].totals_meals = 0;
         table->philos[id].time_from_last_meal = table->start;
+        table->philos[id].meals_eaten = 0;
         pthread_mutex_init(&table->philos[id].meal_mutex, NULL);
+
     }
 }
 
@@ -82,33 +84,84 @@ void philo_usleep(long duration, t_roundtable *table)
         usleep(250); // prevent CPU burn
     }
 }
-void philo_activity(t_philo	*philo, char *s)
+void philo_activity(t_philo *philo, char *s)
 {
+    long time;
+
+    // Check if someone is dead
+    pthread_mutex_lock(&philo->table->dead_mutex);
+    if (philo->table->dead)
+    {
+        pthread_mutex_unlock(&philo->table->dead_mutex);
+        return;
+    }
+    pthread_mutex_unlock(&philo->table->dead_mutex);
+
+    // Calculate timestamp
+    time = current_timestamp() - philo->table->start;
+
+    // Print status
     pthread_mutex_lock(&philo->table->print_mutex);
-    printf("philo id %d %s",philo->id,s);
+    printf("%ld %d %s\n", time, philo->id + 1, s);
     pthread_mutex_unlock(&philo->table->print_mutex);
 }
+
 void *playthrough(void *arg)
 {
-   t_philo	*philo;
+    t_philo *philo = (t_philo *)arg;
 
-	philo = (t_philo *) arg;
-	if (philo->id % 2 != 0)
-		philo_usleep(philo->table->time_to_eat / 2 ,&philo->table);
+    // printf("playtrough");
+    if (philo->id % 2 != 0)
+        philo_usleep(philo->table->time_to_eat / 2, philo->table);
 
-    if (philo->id % 2 != 0)
-        pthread_mutex_lock(&philo->left_fork);
-    else
-        pthread_mutex_lock(&philo->right_fork);
-    philo_activity(philo,"has picked up a fork");
-    if (philo->id % 2 != 0)
-        pthread_mutex_lock(&philo->right_fork);
-    else
-        pthread_mutex_lock(&philo->left_fork);
-    philo_activity(philo,"has picked up a fork");
+    while (1)
+    {
+        // Check if someone is dead
+        pthread_mutex_lock(&philo->table->dead_mutex);
+        if (philo->table->dead)
+        {
+            pthread_mutex_unlock(&philo->table->dead_mutex);
+            return NULL;
+        }
+        pthread_mutex_unlock(&philo->table->dead_mutex);
+
+        // Pick up forks (avoid deadlocks)
+        if (philo->id % 2 != 0)
+        {
+            pthread_mutex_lock(philo->left_fork);
+            philo_activity(philo, "has picked up a fork");
+            pthread_mutex_lock(philo->right_fork);
+            philo_activity(philo, "has picked up a fork");
+        }
+        else
+        {
+            pthread_mutex_lock(philo->right_fork);
+            philo_activity(philo, "has picked up a fork");
+            pthread_mutex_lock(philo->left_fork);
+            philo_activity(philo, "has picked up a fork");
+        }
+
+        // Eat
+        philo_activity(philo, "is eating");
+        // pthread_mutex_lock(philo->meal_mutex);
+        pthread_mutex_lock(&philo->meal_mutex);
+        philo->time_from_last_meal = current_timestamp();
+        philo->meals_eaten++;
+        pthread_mutex_unlock(&philo->meal_mutex);
+        // pthread_mutex_unlock(philo->meal_mutex);
+        philo_usleep(philo->table->time_to_eat, philo->table);
+        // Put down forks
+        pthread_mutex_unlock(philo->left_fork);
+        pthread_mutex_unlock(philo->right_fork);
+
+        // Sleep
+        philo_activity(philo, "is sleeping");
+        philo_usleep(philo->table->time_to_sleep, philo->table);
+        // Think
+        philo_activity(philo, "is thinking");
+    }
     return NULL;
 }
-
 
 void *monitor(void *arg)
 {
@@ -126,7 +179,6 @@ void *monitor(void *arg)
             pthread_mutex_lock(&table->philos[i].meal_mutex);
             last_meal = table->philos[i].time_from_last_meal;
             pthread_mutex_unlock(&table->philos[i].meal_mutex);
-
             now = current_timestamp();
             if (now - last_meal > table->time_to_die)
             {
