@@ -21,12 +21,14 @@ typedef struct t_roundtable
     int time_to_eat;
     int time_to_sleep;
     int meals_lim;
+    int full;
     long start;
     int dead;
 
     pthread_mutex_t *forks;
     pthread_mutex_t print_mutex;
     pthread_mutex_t dead_mutex;
+    pthread_mutex_t full_mutex;
     t_philo *philos;
 
 } t_roundtable;

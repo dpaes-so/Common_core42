@@ -69,16 +69,3 @@ void	*ft_calloc(size_t num, size_t size)
 	ft_bzero(buffer, num * size);
 	return (buffer);
 }
-
-/*int main()
-{
-	char *arr;
-	size_t i = 0;
-	arr = ft_calloc(5,1);
-	while (i < 5) {
-		printf("->%c\n", arr[i]);
-		i++;
-	}
-	printf("\n");
-	return (0);
-}*/
