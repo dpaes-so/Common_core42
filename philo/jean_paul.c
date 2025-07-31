@@ -86,7 +86,7 @@ void philo_activity(t_philo *philo, char *s)
 {
     long time;
 
-    // pthread_mutex_lock(&philo->table->print_mutex);
+    pthread_mutex_lock(&philo->table->print_mutex);
     pthread_mutex_lock(&philo->table->dead_mutex);
     if (philo->table->dead)
     {
@@ -95,10 +95,9 @@ void philo_activity(t_philo *philo, char *s)
         return;
     }
     pthread_mutex_unlock(&philo->table->dead_mutex);
-
     time = current_timestamp() - philo->table->start;
     printf("%ld %d %s\n", time, philo->id + 1, s);
-    // pthread_mutex_unlock(&philo->table->print_mutex);
+    pthread_mutex_unlock(&philo->table->print_mutex);
 }
 
 
@@ -120,7 +119,6 @@ void *playthrough(void *arg)
             return NULL;
         }
         pthread_mutex_unlock(&philo->table->dead_mutex);
-        // Pick up forks (avoid deadlocks)
         if (philo->id % 2 != 0)
         {
             pthread_mutex_lock(philo->left_fork);
