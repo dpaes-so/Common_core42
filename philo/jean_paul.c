@@ -105,8 +105,7 @@ void *playthrough(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
-    // printf("playtrough");
-    if (philo->id % 2 != 0)
+    if (philo->id % 2 == 0)
         philo_usleep(philo->table->time_to_eat / 2, philo->table);
 
     while (1)
@@ -119,20 +118,23 @@ void *playthrough(void *arg)
             return NULL;
         }
         pthread_mutex_unlock(&philo->table->dead_mutex);
+        if(philo->table->chairs == 1) 
+        {
+            pthread_mutex_lock(philo->left_fork);
+            philo_activity(philo, "has picked up a fork");
+            philo_usleep(philo->table->time_to_die * 2,philo->table);
+            break;
+        }
         if (philo->id % 2 != 0)
-        {
             pthread_mutex_lock(philo->left_fork);
-            philo_activity(philo, "has picked up a fork");
-            pthread_mutex_lock(philo->right_fork);
-            philo_activity(philo, "has picked up a fork");
-        }
         else
-        {
             pthread_mutex_lock(philo->right_fork);
-            philo_activity(philo, "has picked up a fork");
+        philo_activity(philo, "has picked up a fork");
+        if (philo->id % 2 != 0)
+            pthread_mutex_lock(philo->right_fork);
+        else
             pthread_mutex_lock(philo->left_fork);
-            philo_activity(philo, "has picked up a fork");
-        }
+        philo_activity(philo, "has picked up a fork");
         // Eat
         pthread_mutex_lock(&philo->meal_mutex);
         philo->time_from_last_meal = current_timestamp();
@@ -162,8 +164,8 @@ void *playthrough(void *arg)
         philo_usleep(philo->table->time_to_sleep, philo->table);
         // Think
         philo_activity(philo, "is thinking");
-        if(philo->table->chairs % 2 != 0)
-            philo_usleep(500,philo->table);
+        if (philo->table->chairs % 2 != 0)
+            philo_usleep(philo->table->time_to_eat / 2, philo->table);
     }
     return NULL;
 }
@@ -181,7 +183,7 @@ void *monitor(void *arg)
         i = 0;
         while (i < table->chairs)
         {
-            if(table->meals_lim > 1)
+            if(table->meals_lim > 0)
             {
                 pthread_mutex_lock(&table->full_mutex);
                 if(table->full == table->chairs)
@@ -246,6 +248,7 @@ int main(int ac,char **av)
             while(i < table.chairs)
             {
                 pthread_mutex_destroy(&table.forks[i]);
+                pthread_mutex_destroy(&table.philos[i].meal_mutex);
                 i++;
             }
             pthread_mutex_destroy(&table.print_mutex);
@@ -255,7 +258,7 @@ int main(int ac,char **av)
             free(table.philos);
         }
         else
-            printf("sadge\n");
+            printf("parser error\n");
     }
     else
         write(2,"Invalid input\n",15);

@@ -18,6 +18,8 @@ int parser(char **av)
     while(av[++i])
     {
         j = 0;
+        if(ft_atoi(av[i]) <= 0)
+            return (0);
         while(av[i][j])
         {
             if(ft_isdigit(av[i][j]))

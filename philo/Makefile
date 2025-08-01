@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Philo
+NAME = philo
 CC = cc
 FLAGS = -Wall -Werror -Wextra -pthread -g
 
