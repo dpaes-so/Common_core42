@@ -14,7 +14,7 @@ NAME = philo
 CC = cc
 FLAGS = -Wall -Werror -Wextra -pthread -g
 
-SRC_FILES = jean_paul.c time.c parser.c to_lib_or_not_to_lib.c
+SRC_FILES = jean_paul.c time.c parser.c to_lib_or_not_to_lib.c philo_moves.c set_up.c
 OBJS = $(SRC_FILES:.c=.o)
 
 all: $(NAME) 

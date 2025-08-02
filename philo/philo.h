@@ -52,4 +52,8 @@ void	*ft_calloc(size_t num, size_t size);
 long current_timestamp(void);
 int parser(char **av);
 
+void *playthrough(void *arg);
+int dinner_setup(t_roundtable *table,int ac,char **av);
+void character_creation(t_roundtable *table);
+
 #endif
