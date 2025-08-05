@@ -15,7 +15,7 @@ int check_dead(t_roundtable *table,int i)
         table->dead = 1;
         pthread_mutex_unlock(&table->dead_mutex);
         pthread_mutex_lock(&table->print_mutex);
-        printf("%ld %d died\n", current_timestamp() - table->start, table->philos[i].id + 1);
+        printf("%ld %d died\n", current_timestamp() - table->start, table->philos[i].id);
         pthread_mutex_unlock(&table->print_mutex);
         return (0);
     }

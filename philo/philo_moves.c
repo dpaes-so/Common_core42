@@ -31,7 +31,7 @@ void philo_activity(t_philo *philo, char *s)
     }
     pthread_mutex_unlock(&philo->table->dead_mutex);
     time = current_timestamp() - philo->table->start;
-    printf("%ld %d %s\n", time, philo->id + 1, s);
+    printf("%ld %d %s\n", time, philo->id, s);
     pthread_mutex_unlock(&philo->table->print_mutex);
 }
 int  pick_forks(t_philo *philo)
@@ -92,7 +92,7 @@ void *playthrough(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
-    if (philo->id % 2 == 0)
+    if (philo->id % 2 != 0)
         philo_usleep(philo->table->time_to_eat / 2, philo->table);
 
     while (1)
