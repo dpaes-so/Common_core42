@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:47:16 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 18:28:24 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:31:23 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ long	ft_atol(const char *nptr)
 	{
 		result = result * 10 + (nptr[i] - '0');
 		if (result > INT_MAX)
-			return(-1) ;
+			return (-1);
 		i++;
 	}
 	return (result * minus);

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:13:34 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:30:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:09:45 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	philo_usleep(long duration, t_roundtable *table)
 {
 	long long	start;
 
+	if (duration < 0)
+		return ;
 	start = current_timestamp();
 	while ((current_timestamp() - start) < duration)
 	{
@@ -119,7 +121,11 @@ void	*playthrough(void *arg)
 		philo_usleep(philo->table->time_to_sleep, philo->table);
 		philo_activity(philo, "is thinking");
 		if (philo->table->chairs % 2 != 0)
-			philo_usleep(philo->table->time_to_eat / 2, philo->table);
+			philo_usleep((philo->table->time_to_eat * 2)
+				- philo->table->time_to_sleep, philo->table);
+		else
+			philo_usleep(philo->table->time_to_eat
+				- philo->table->time_to_sleep, philo->table);
 	}
 	return (NULL);
 }
