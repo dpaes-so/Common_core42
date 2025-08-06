@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:15:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:18:44 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:28:55 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct t_philo
 
 }						t_philo;
 
-int						ft_atoi(const char *str);
+long					ft_atol(const char *nptr);
 void					*ft_calloc(size_t num, size_t size);
 long					current_timestamp(void);
 int						parser(char **av);

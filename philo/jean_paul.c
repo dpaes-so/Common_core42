@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:30:13 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:30:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:22:01 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,25 @@ void	pthread_life(t_roundtable *table)
 	pthread_mutex_destroy(&table->full_mutex);
 	free(table->forks);
 	free(table->philos);
+}
+
+void	print_philos(t_roundtable table)
+{
+	int	i;
+
+	i = -1;
+	printf("Philosophers: %d\n", table.chairs);
+	printf("Time to die: %ld\n", table.time_to_die);
+	printf("Time to eat: %d\n", table.time_to_eat);
+	printf("Time to sleep: %d\n", table.time_to_sleep);
+	if (table.meals_lim > 0)
+		printf("Meals limit: %d\n", table.meals_lim);
+	else
+		printf("No meals limit set\n");
+	while (++i < table.chairs)
+	{
+		printf("id = %d\n", table.philos[i].id);
+	}
 }
 
 int	main(int ac, char **av)

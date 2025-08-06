@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:13:57 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:30:38 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:28:14 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parser(char **av)
 	while (av[++i])
 	{
 		j = 0;
-		if (ft_atoi(av[i]) <= 0)
+		if (ft_atol(av[i]) <= 0)
 			return (0);
 		while (av[i][j])
 		{

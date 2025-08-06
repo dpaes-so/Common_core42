@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:13:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:31:34 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:27:59 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	setup_aux(t_roundtable *table)
 
 int	dinner_setup(t_roundtable *table, int ac, char **av)
 {
-	table->chairs = ft_atoi(av[1]);
-	table->time_to_die = ft_atoi(av[2]);
-	table->time_to_eat = ft_atoi(av[3]);
-	table->time_to_sleep = ft_atoi(av[4]);
+	table->chairs = ft_atol(av[1]);
+	table->time_to_die = ft_atol(av[2]);
+	table->time_to_eat = ft_atol(av[3]);
+	table->time_to_sleep = ft_atol(av[4]);
 	table->dead = 0;
 	table->full = 0;
 	if (ac == 6)
-		table->meals_lim = ft_atoi(av[5]);
+		table->meals_lim = ft_atol(av[5]);
 	else
 		table->meals_lim = -1;
 	table->forks = ft_calloc(table->chairs, sizeof(pthread_mutex_t));

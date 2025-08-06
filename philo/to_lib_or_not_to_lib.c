@@ -6,35 +6,37 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:47:16 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:13:28 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:28:24 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *nptr)
 {
-	int	i;
-	int	result;
-	int	sinal;
+	int		i;
+	int		minus;
+	long	result;
 
 	i = 0;
+	minus = 1;
 	result = 0;
-	sinal = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
-	if (str[i] == '+' || str[i] == '-')
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		if (str[i] == '-')
-			sinal = -sinal;
+		if (nptr[i] == '-')
+			minus = -minus;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		result = result * 10 + (str[i] - '0');
+		result = result * 10 + (nptr[i] - '0');
+		if (result > INT_MAX)
+			return(-1) ;
 		i++;
 	}
-	return (result * sinal);
+	return (result * minus);
 }
 
 void	ft_bzero(void *str, size_t n)
