@@ -42,8 +42,8 @@ int	check_full(t_roundtable *table)
 		pthread_mutex_lock(&table->full_mutex);
 		if (table->full == table->chairs)
 		{
-			pthread_mutex_lock(&table->print_mutex);
 			pthread_mutex_lock(&table->dead_mutex);
+			pthread_mutex_lock(&table->print_mutex);
 			table->dead = 1;
 			pthread_mutex_unlock(&table->dead_mutex);
 			printf("All philos are Full\n");
@@ -58,21 +58,17 @@ int	check_full(t_roundtable *table)
 
 void	*monitor(void *arg)
 {
-	int				i;
 	t_roundtable	*table;
 
 	table = (t_roundtable *)arg;
 	while (1)
 	{
-		i = 0;
-		while (i < table->chairs)
-		{
-			if (!check_full(table))
-				return (NULL);
-			if (!check_dead(table, i))
-				return (NULL);
-			i++;
-		}
+		if (!check_full(table))
+			return (NULL);
+		pthread_mutex_lock(&table->dead_mutex);
+		if(table->dead == 1)
+			return(NULL);
+		pthread_mutex_unlock(&table->dead_mutex);
 		usleep(100);
 	}
 	return (NULL);
