@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* jean_paul.c — patched monitor and helpers */
 #include "philo.h"
 
 int	check_dead(t_roundtable *table, int i)
@@ -21,14 +20,12 @@ int	check_dead(t_roundtable *table, int i)
 	pthread_mutex_lock(&table->philos[i].meal_mutex);
 	last_meal = table->philos[i].time_from_last_meal;
 	pthread_mutex_unlock(&table->philos[i].meal_mutex);
-
 	now = current_timestamp();
 	if (now - last_meal > table->time_to_die)
 	{
 		pthread_mutex_lock(&table->dead_mutex);
 		table->dead = 1;
 		pthread_mutex_unlock(&table->dead_mutex);
-
 		pthread_mutex_lock(&table->print_mutex);
 		printf("%ld %d died\n", current_timestamp() - table->start,
 			table->philos[i].id);
@@ -45,17 +42,13 @@ int	check_full(t_roundtable *table)
 		pthread_mutex_lock(&table->full_mutex);
 		if (table->full == table->chairs)
 		{
-			pthread_mutex_unlock(&table->full_mutex);
-
-			/* mark dead under dead_mutex, then print (do not hold dead_mutex while printing) */
 			pthread_mutex_lock(&table->dead_mutex);
+			pthread_mutex_lock(&table->print_mutex);
 			table->dead = 1;
 			pthread_mutex_unlock(&table->dead_mutex);
-
-			pthread_mutex_lock(&table->print_mutex);
 			printf("All philos are Full\n");
+			pthread_mutex_unlock(&table->full_mutex);
 			pthread_mutex_unlock(&table->print_mutex);
-
 			return (0);
 		}
 		pthread_mutex_unlock(&table->full_mutex);
@@ -66,31 +59,16 @@ int	check_full(t_roundtable *table)
 void	*monitor(void *arg)
 {
 	t_roundtable	*table;
-	int				i;
 
 	table = (t_roundtable *)arg;
 	while (1)
 	{
-		/* check fullness first */
 		if (!check_full(table))
 			return (NULL);
-
-		/* check each philosopher for death */
-		i = 0;
-		while (i < table->chairs)
-		{
-			pthread_mutex_lock(&table->dead_mutex);
-			if (table->dead)
-			{
-				pthread_mutex_unlock(&table->dead_mutex);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&table->dead_mutex);
-
-			if (!check_dead(table, i))
-				return (NULL);
-			i++;
-		}
+		pthread_mutex_lock(&table->dead_mutex);
+		if(table->dead == 1)
+			return(pthread_mutex_unlock(&table->dead_mutex),NULL);
+		pthread_mutex_unlock(&table->dead_mutex);
 		usleep(100);
 	}
 	return (NULL);
@@ -102,18 +80,13 @@ void	pthread_life(t_roundtable *table)
 	int			i;
 
 	pthread_create(&monitor_id, NULL, monitor, table);
-
-	/* detach monitor or join later after philosophers finish; we join here so that when monitor
-	   detects death/full it returns and then we join philosophers */
 	pthread_join(monitor_id, NULL);
-
 	i = 0;
 	while (i < table->chairs)
 	{
 		pthread_join(table->philos[i].thread_id, NULL);
 		i++;
 	}
-	/* cleanup mutexes and free */
 	i = 0;
 	while (i < table->chairs)
 	{
@@ -127,7 +100,6 @@ void	pthread_life(t_roundtable *table)
 	free(table->forks);
 	free(table->philos);
 }
-
 
 int	main(int ac, char **av)
 {
