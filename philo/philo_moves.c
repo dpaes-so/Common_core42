@@ -12,7 +12,6 @@
 
 #include "philo.h"
 
-
 void	philo_usleep(long duration, t_roundtable *table)
 {
 	long long	start;
@@ -65,8 +64,7 @@ int	pick_forks(t_philo *philo)
 		pthread_mutex_lock(philo->left_fork);
 		philo_activity(philo, "has taken a fork");
 		philo_usleep(philo->table->time_to_die * 2, philo->table);
-		pthread_mutex_unlock(philo->left_fork);
-		return (0);
+		return (pthread_mutex_unlock(philo->left_fork), 0);
 	}
 	if (philo->id % 2 != 0)
 		pthread_mutex_lock(philo->left_fork);
@@ -122,20 +120,17 @@ void	*playthrough(void *arg)
 		dinner_time(philo);
 		pthread_mutex_lock(&philo->table->dead_mutex);
 		if (philo->table->dead)
-		{
-			pthread_mutex_unlock(&philo->table->dead_mutex);
-			return (NULL);
-		}
+			return (pthread_mutex_unlock(&philo->table->dead_mutex), NULL);
 		pthread_mutex_unlock(&philo->table->dead_mutex);
 		philo_activity(philo, "is sleeping");
 		philo_usleep(philo->table->time_to_sleep, philo->table);
 		philo_activity(philo, "is thinking");
 		if (philo->table->chairs % 2 != 0)
 			philo_usleep((philo->table->time_to_eat * 2)
-					- philo->table->time_to_sleep, philo->table);
+				- philo->table->time_to_sleep, philo->table);
 		else
 			philo_usleep(philo->table->time_to_eat
-					- philo->table->time_to_sleep, philo->table);
+				- philo->table->time_to_sleep, philo->table);
 	}
 	return (NULL);
 }

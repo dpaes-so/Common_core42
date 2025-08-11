@@ -6,12 +6,11 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:15:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 18:28:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:12:20 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-
 
 # define PHILO_H
 # include <limits.h>
@@ -60,13 +59,14 @@ typedef struct t_philo
 
 }						t_philo;
 
+void					print_death(t_roundtable *table, int id, long now);
 long					ft_atol(const char *nptr);
 void					*ft_calloc(size_t num, size_t size);
 long					current_timestamp(void);
 int						parser(char **av);
 void					*playthrough(void *arg);
 int						dinner_setup(t_roundtable *table, int ac, char **av);
-void					character_creation(t_roundtable *table);
-void					fmalloc(t_roundtable *table, char *str, int code);
+int						character_creation(t_roundtable *table);
+int						fmalloc(t_roundtable *table, char *str, int code);
 
 #endif

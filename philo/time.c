@@ -6,12 +6,11 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:13:25 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 17:31:21 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:32:29 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 long	current_timestamp(void)
 {

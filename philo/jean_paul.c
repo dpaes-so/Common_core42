@@ -12,15 +12,6 @@
 
 #include "philo.h"
 
-
-
-static void	print_death(t_roundtable *table, int id, long now)
-{
-	pthread_mutex_lock(&table->print_mutex);
-	printf("%ld %d died\n", now - table->start, id);
-	pthread_mutex_unlock(&table->print_mutex);
-}
-
 int	check_dead(t_roundtable *table, int i)
 {
 	long	now;
@@ -83,8 +74,8 @@ void	*monitor(void *arg)
 				return (NULL);
 			i++;
 		}
-		if(!check_full(table))
-			return(NULL);
+		if (!check_full(table))
+			return (NULL);
 		usleep(100);
 	}
 	return (NULL);
@@ -122,20 +113,18 @@ int	main(int ac, char **av)
 	t_roundtable	table;
 	int				i;
 
-	i = 0;
+	i = -1;
 	if (ac == 5 || ac == 6)
 	{
 		if (parser(av))
 		{
-			if (dinner_setup(&table, ac, av) < 0)
+			if (dinner_setup(&table, ac, av) <= 0)
 				return (0);
-			character_creation(&table);
-			while (i < table.chairs)
-			{
+			if (!character_creation(&table))
+				return (0);
+			while (++i < table.chairs)
 				pthread_create(&table.philos[i].thread_id, NULL, playthrough,
 					&table.philos[i]);
-				i++;
-			}
 			pthread_life(&table);
 		}
 		else

@@ -6,14 +6,13 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:13:15 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 18:27:59 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:51:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void	setup_aux(t_roundtable *table)
+int	setup_aux(t_roundtable *table)
 {
 	int	i;
 
@@ -27,15 +26,19 @@ void	setup_aux(t_roundtable *table)
 				pthread_mutex_destroy(&table->forks[i]);
 				i--;
 			}
-			exit(1);
+			return (0);
 		}
 	}
 	if (pthread_mutex_init(&table->print_mutex, NULL) < 0)
-		fmalloc(table, "Init Failed", 1);
+		if (!fmalloc(table, "Init Failed", 1))
+			return (0);
 	if (pthread_mutex_init(&table->dead_mutex, NULL) < 0)
-		fmalloc(table, "Init Failed", 2);
+		if (!fmalloc(table, "Init Failed", 2))
+			return (0);
 	if (pthread_mutex_init(&table->full_mutex, NULL) < 0)
-		fmalloc(table, "Init Failed", 3);
+		if (!fmalloc(table, "Init Failed", 3))
+			return (0);
+	return (1);
 }
 
 int	dinner_setup(t_roundtable *table, int ac, char **av)
@@ -52,19 +55,22 @@ int	dinner_setup(t_roundtable *table, int ac, char **av)
 		table->meals_lim = -1;
 	table->forks = ft_calloc(table->chairs, sizeof(pthread_mutex_t));
 	if (!table->forks)
-		fmalloc(table, "Malloc Failed", 0);
-	setup_aux(table);
+		if (!fmalloc(table, "Malloc Failed", 0))
+			return (0);
+	if (!setup_aux(table))
+		return (0);
 	table->start = current_timestamp();
 	return (1);
 }
 
-void	character_creation(t_roundtable *table)
+int	character_creation(t_roundtable *table)
 {
 	int	id;
 
 	table->philos = ft_calloc(table->chairs, sizeof(t_philo));
 	if (!table->philos)
-		fmalloc(table, "Malloc Failed", 3);
+		if (!fmalloc(table, "Malloc Failed", 3))
+			return (0);
 	id = 0;
 	while (id < table->chairs)
 	{
@@ -76,12 +82,14 @@ void	character_creation(t_roundtable *table)
 		table->philos[id].time_from_last_meal = table->start;
 		table->philos[id].meals_eaten = 0;
 		if (pthread_mutex_init(&table->philos[id].meal_mutex, NULL) < 0)
-			fmalloc(table, "Init Failed", 4);
+			if (!fmalloc(table, "Init Failed", 4))
+				return (0);
 		id++;
 	}
+	return (1);
 }
 
-void	fmalloc(t_roundtable *table, char *str, int code)
+int	fmalloc(t_roundtable *table, char *str, int code)
 {
 	int	i;
 
@@ -105,5 +113,12 @@ void	fmalloc(t_roundtable *table, char *str, int code)
 	}
 	while (*str)
 		write(2, str++, 1);
-	exit(1);
+	return (0);
+}
+
+void	print_death(t_roundtable *table, int id, long now)
+{
+	pthread_mutex_lock(&table->print_mutex);
+	printf("%ld %d died\n", now - table->start, id);
+	pthread_mutex_unlock(&table->print_mutex);
 }

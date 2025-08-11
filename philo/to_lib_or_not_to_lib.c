@@ -6,12 +6,11 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:47:16 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/06 19:31:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:32:27 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 long	ft_atol(const char *nptr)
 {
