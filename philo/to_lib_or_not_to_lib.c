@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+
 long	ft_atol(const char *nptr)
 {
 	int		i;

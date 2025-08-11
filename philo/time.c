@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+
 long	current_timestamp(void)
 {
 	struct timeval	tv;

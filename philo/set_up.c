@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+
 void	setup_aux(t_roundtable *table)
 {
 	int	i;

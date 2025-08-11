@@ -2,53 +2,22 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo_moves.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
+/*                                                    +:+ +:+         ###   */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:13:34 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/08/09 17:40:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/08/09 21:30:05 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	bedtime(long duration, t_philo *philo)
-{
-	long long	start;
-
-	if (duration < 0)
-		return (1);
-	start = current_timestamp();
-	while ((current_timestamp() - start) < duration)
-	{
-		usleep(100);
-		pthread_mutex_lock(&philo->table->dead_mutex);
-		if (philo->table->dead) /* Early exit if another thread marked death */
-		{
-			pthread_mutex_unlock(&philo->table->dead_mutex);
-			return (0);
-		}
-		if (current_timestamp() - philo->time_from_last_meal > philo->table->time_to_die
-			&& philo->table->dead == 0)
-		{
-			philo->table->dead = 1;
-			pthread_mutex_lock(&philo->table->print_mutex);
-			printf("%ld %d died\n", current_timestamp() - philo->table->start,
-				philo->id);
-			pthread_mutex_unlock(&philo->table->print_mutex);
-			pthread_mutex_unlock(&philo->table->dead_mutex);
-			return (0);
-		}
-		pthread_mutex_unlock(&philo->table->dead_mutex);
-	}
-	return (1);
-}
 
 void	philo_usleep(long duration, t_roundtable *table)
 {
 	long long	start;
 
-	if (duration < 0)
+	if (duration <= 0)
 		return ;
 	start = current_timestamp();
 	while ((current_timestamp() - start) < duration)
@@ -95,7 +64,7 @@ int	pick_forks(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		philo_activity(philo, "has taken a fork");
-		bedtime(philo->table->time_to_die * 2, philo);
+		philo_usleep(philo->table->time_to_die * 2, philo->table);
 		pthread_mutex_unlock(philo->left_fork);
 		return (0);
 	}
@@ -112,35 +81,21 @@ int	pick_forks(t_philo *philo)
 	return (1);
 }
 
-int	dinner_time(t_philo *philo)
+void	dinner_time(t_philo *philo)
 {
-	/* Protect update if monitor uses check_dead */
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->time_from_last_meal = current_timestamp();
-	pthread_mutex_unlock(&philo->meal_mutex);
-
 	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	philo_activity(philo, "is eating");
-	if (philo->meals_eaten == philo->table->meals_lim)
+	if (philo->table->meals_lim > 0
+		&& philo->meals_eaten == philo->table->meals_lim)
 	{
 		pthread_mutex_lock(&philo->table->full_mutex);
 		philo->table->full += 1;
 		pthread_mutex_unlock(&philo->table->full_mutex);
 	}
-	if (!bedtime(philo->table->time_to_eat, philo))
-	{
-		if (philo->id % 2 != 0)
-		{
-			pthread_mutex_unlock(philo->left_fork);
-			pthread_mutex_unlock(philo->right_fork);
-		}
-		else
-		{
-			pthread_mutex_unlock(philo->right_fork);
-			pthread_mutex_unlock(philo->left_fork);
-		}
-		return (0);
-	}
+	philo_usleep(philo->table->time_to_eat, philo->table);
 	if (philo->id % 2 != 0)
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -151,7 +106,6 @@ int	dinner_time(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 	}
-	return (1);
 }
 
 void	*playthrough(void *arg)
@@ -165,24 +119,23 @@ void	*playthrough(void *arg)
 	{
 		if (!pick_forks(philo))
 			return (NULL);
-		if (!dinner_time(philo))
+		dinner_time(philo);
+		pthread_mutex_lock(&philo->table->dead_mutex);
+		if (philo->table->dead)
+		{
+			pthread_mutex_unlock(&philo->table->dead_mutex);
 			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->table->dead_mutex);
 		philo_activity(philo, "is sleeping");
-		if (!bedtime(philo->table->time_to_sleep, philo))
-			return (NULL);
+		philo_usleep(philo->table->time_to_sleep, philo->table);
 		philo_activity(philo, "is thinking");
 		if (philo->table->chairs % 2 != 0)
-		{
-			if (!bedtime((philo->table->time_to_eat * 2)
-					- philo->table->time_to_sleep, philo))
-				return (NULL);
-		}
+			philo_usleep((philo->table->time_to_eat * 2)
+					- philo->table->time_to_sleep, philo->table);
 		else
-		{
-			if (!bedtime(philo->table->time_to_eat
-					- philo->table->time_to_sleep, philo))
-				return (NULL);
-		}
+			philo_usleep(philo->table->time_to_eat
+					- philo->table->time_to_sleep, philo->table);
 	}
 	return (NULL);
 }
